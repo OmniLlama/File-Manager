@@ -1,0 +1,1 @@
+E:\_LocalProjects\FileManager\FileManager.csproj;x86
