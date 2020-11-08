@@ -27,6 +27,11 @@ namespace FileManager
     public sealed partial class MainPage : Page
     {
         public StorageFile currMetaFile;
+        FolderInfo currFolderInfo;
+        FileInfo currFileInfo;
+        List<FileInfo> currFilesInfo;
+        List<string[]> metaTags;
+
         public string[] currTaggedFiles;
 
         string[] currDirs;
@@ -54,23 +59,7 @@ namespace FileManager
 
         private void lst_files_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            lst_fileTags.Items.Clear();
-            if (lst_files.SelectedItem == null) return;
-
-            ListViewItem lvi = lst_files.SelectedItem as ListViewItem;
-            if (currTaggedFiles == null) return;
-            for (int i = 0; i < currTaggedFiles.Length; i++)
-            {
-                if (currTaggedFiles[i].Contains($"{lvi.Content}"))
-                {
-                    string[] tagArr = currTaggedFiles[i].Split("#").Skip(1).ToArray();
-                    foreach (string tag in tagArr)
-                    {
-                        if (tag.Length > 0)
-                            lst_fileTags.Items.Add(tag.Replace("\n", ""));
-                    }
-                }
-            }
+            ChangeFileSelection();
         }
         private void lst_dirs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -106,42 +95,60 @@ namespace FileManager
                 dirTags = new List<string>();
                 lst_folderTags.Items.Clear();
 
-                if (folder.GetFileAsync("_meta.fm") != null)
-                {
-                    try
-                    {
-                        tagBuffer = new byte[tagBufferSize];
-                        currMetaFile = await folder.GetFileAsync("_meta.fm");
-                        IRandomAccessStream iras = await currMetaFile.OpenAsync(FileAccessMode.ReadWrite);
-                        Stream stream = iras.AsStreamForRead();
-                        stream.Read(tagBuffer, 0, tagBufferSize);
-                        stream.Close();
-                        tagString = System.Text.Encoding.Default.GetString(tagBuffer);
-                        tagString = tagString.Replace("\r", "").Replace("\0", "");
-                        tagLines = tagString.Split("\n");
-                        currTaggedFiles = tagString.Split("@").Skip(1).ToArray();
-                        foreach (string tag in tagLines)
-                        {
-                            if (tag.Length > 0)
-                                if (tag.ElementAt(0) == '|')
-                                {
-                                    dirTags.Add(tag.Trim('|'));
-                                    lst_folderTags.Items.Add(tag.Trim('|'));
-                                }
-                                else
-                                    break;
-                        }
-                    }
-                    catch
-                    {
-
-                    }
-                }
+                GetMetaFileFromFolder(folder);
             }
             else
             {
                 txt_currDir.Text = "Operation cancelled.";
             }
+        }
+        async private void GetMetaFileFromFolder(StorageFolder folder)
+        {
+            if (folder.GetFileAsync("_meta.fm") != null)
+            {
+                try
+                {
+                    tagBuffer = new byte[tagBufferSize];
+                    currMetaFile = await folder.GetFileAsync("_meta.fm");
+                    IRandomAccessStream iras = await currMetaFile.OpenAsync(FileAccessMode.ReadWrite);
+                    Stream stream = iras.AsStreamForRead();
+                    stream.Read(tagBuffer, 0, tagBufferSize);
+                    stream.Close();
+                    ParseMetaFile(folder);
+
+                }
+                catch
+                {
+                    currMetaFile = null;
+                }
+            }
+        }
+        private void ParseMetaFile(StorageFolder folder)
+        {
+            tagString = System.Text.Encoding.Default.GetString(tagBuffer);
+            tagString = tagString.Replace("\r", "").Replace("\0", "");
+            tagLines = tagString.Split("\n");
+            currTaggedFiles = tagString.Split("@").Skip(1).ToArray();
+
+            List<string> tempTags = new List<string>();
+            foreach (string tag in tagLines)
+            {
+                if (tag.Length > 0)
+                {
+                    if (tag.ElementAt(0) == '|')
+                    {
+                        string tempTag = tag.Trim('|');
+                        dirTags.Add(tempTag);
+                        tempTags.Add(tempTag);
+                        lst_folderTags.Items.Add(tempTag);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            currFolderInfo = new FolderInfo(folder.Name, tempTags);
         }
         private void RefreshDirDisplay(string path)
         {
@@ -168,6 +175,45 @@ namespace FileManager
                 lst_files.Items.Add(lvi);
             }
         }
+        private void ChangeFileSelection()
+        {
+            lst_fileTags.Items.Clear();
+            if (lst_files.SelectedItem == null) return;
 
+            ListViewItem lvi = lst_files.SelectedItem as ListViewItem;
+            if (currTaggedFiles == null) return;
+            for (int i = 0; i < currTaggedFiles.Length; i++)
+            {
+                if (currTaggedFiles[i].Contains($"{lvi.Content}"))
+                {
+                    string[] tagArr = currTaggedFiles[i].Split("#").Skip(1).ToArray();
+                    foreach (string tag in tagArr)
+                    {
+                        if (tag.Length > 0)
+                            lst_fileTags.Items.Add(tag.Replace("\n", ""));
+                    }
+                }
+            }
+        }
+    }
+    class FolderInfo
+    {
+        string name;
+        List<string> tags;
+        public FolderInfo(string n, List<string> tgs)
+        {
+            name = n;
+            tags = tgs;
+        }
+    }
+    class FileInfo
+    {
+        string name;
+        List<string> tags;
+        public FileInfo(string n, List<string> tgs)
+        {
+            name = n;
+            tags = tgs;
+        }
     }
 }

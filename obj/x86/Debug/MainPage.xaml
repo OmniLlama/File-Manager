@@ -14,7 +14,7 @@
             <ListViewItem Content="Test 2"/>
         </ListView>
         <Button x:ConnectionId='3' x:Name="btn_refresh" Content="Refresh" Margin="10,10,0,0" VerticalAlignment="Top"                           Height="32"/>
-        <TextBlock x:ConnectionId='4' x:Name="txt_currDir" HorizontalAlignment="Left" Margin="573,16,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="686"                                              />
+        <TextBlock x:ConnectionId='4' x:Name="txt_currDir" HorizontalAlignment="Left" Margin="573,16,0,0" Text="Directory" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="686"                                              />
         <ListView x:ConnectionId='5' x:Name="lst_dirs" Margin="0,89,658,745"                                              Background="#FF151515" BorderBrush="White">
             <ListViewItem Content="Dir 1"/>
         </ListView>
