@@ -41,7 +41,7 @@ namespace FileManager
         int tagBufferSize = 4096;
         byte[] tagBuffer;
         string tagString;
-        string[] tagLines;
+        string[] idxTagLines;
         List<string> dirTags;
 
         public MainPage()
@@ -84,15 +84,11 @@ namespace FileManager
             StorageFolder folder = await folderPicker.PickSingleFolderAsync();
             if (folder != null)
             {
-                // Application now has read/write access to all contents in the picked folder
-                // (including other sub-folder contents)
+                // Application now has read/write access to all contents in the picked folder (including other sub-folder contents)
                 Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", folder);
                 currPath = folder.Path;
-                txt_currDir.Text = currPath;
-                RefreshDirDisplay(currPath);
-                RefreshFileDisplay(currPath);
+                RefreshAllDisplays(currPath);
 
-                dirTags = new List<string>();
                 lst_folderTags.Items.Clear();
 
                 GetMetaFileFromFolder(folder);
@@ -108,11 +104,11 @@ namespace FileManager
             {
                 try
                 {
-                    tagBuffer = new byte[tagBufferSize];
                     currMetaFile = await folder.GetFileAsync("_meta.fm");
                     IRandomAccessStream iras = await currMetaFile.OpenAsync(FileAccessMode.ReadWrite);
                     Stream stream = iras.AsStreamForRead();
-                    stream.Read(tagBuffer, 0, tagBufferSize);
+                    tagBuffer = new byte[stream.Length];
+                    stream.Read(tagBuffer, 0, (int)stream.Length);
                     stream.Close();
                     ParseMetaFile(folder);
 
@@ -125,31 +121,33 @@ namespace FileManager
         }
         private void ParseMetaFile(StorageFolder folder)
         {
+            dirTags = new List<string>();
             tagString = System.Text.Encoding.Default.GetString(tagBuffer);
-            tagString = tagString.Replace("\r", "").Replace("\0", "");
-            tagLines = tagString.Split("\n");
-            currTaggedFiles = tagString.Split("@").Skip(1).ToArray();
+            tagString = tagString.Replace("\r", "").Replace("\n", "");
+            var temp = tagString.Split("@");
+            idxTagLines = temp.First().Split("|").Skip(1).ToArray();
+            currTaggedFiles = temp.Skip(1).ToArray();
 
             List<string> tempTags = new List<string>();
-            foreach (string tag in tagLines)
+            foreach (string tag in idxTagLines)
             {
                 if (tag.Length > 0)
                 {
-                    if (tag.ElementAt(0) == '|')
-                    {
-                        string tempTag = tag.Trim('|');
-                        dirTags.Add(tempTag);
-                        tempTags.Add(tempTag);
-                        lst_folderTags.Items.Add(tempTag);
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    string tempTag = tag.Trim('|');
+                    dirTags.Add(tempTag);
+                    tempTags.Add(tempTag);
+                    lst_folderTags.Items.Add(tempTag);
                 }
             }
             currFolderInfo = new FolderInfo(folder.Name, tempTags);
         }
+        private void RefreshAllDisplays(string path)
+        {
+            txt_currDir.Text = path;
+            RefreshDirDisplay(path);
+            RefreshFileDisplay(path);
+        }
+
         private void RefreshDirDisplay(string path)
         {
             currDirs = Directory.GetDirectories(path);
@@ -196,24 +194,5 @@ namespace FileManager
             }
         }
     }
-    class FolderInfo
-    {
-        string name;
-        List<string> tags;
-        public FolderInfo(string n, List<string> tgs)
-        {
-            name = n;
-            tags = tgs;
-        }
-    }
-    class FileInfo
-    {
-        string name;
-        List<string> tags;
-        public FileInfo(string n, List<string> tgs)
-        {
-            name = n;
-            tags = tgs;
-        }
-    }
+
 }
