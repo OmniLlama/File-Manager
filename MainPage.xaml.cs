@@ -57,8 +57,15 @@ namespace FileManager
         public async void StartApplication()
         {
             Inst = this;
-            baseFML = await localFolder.GetFileAsync("base.fml");
-
+            try
+            {
+                baseFML = await localFolder.GetFileAsync("base.fml");
+            }
+            catch
+            {
+                baseFML = await localFolder.CreateFileAsync("base.fml");
+                Xml.WriteToXmlFile(baseFML.Path, new Fml(), false);
+            }
         }
         private void lst_files_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -79,7 +86,7 @@ namespace FileManager
             RefreshFileDisplay(currPath);
         }
 
-        private void btn_addTag_Click(object sender, RoutedEventArgs e)
+        private void btn_addFileTag_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -99,25 +106,30 @@ namespace FileManager
                 // Application now has read/write access to all contents in the picked folder (including other sub-folder contents)
                 Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", folder);
                 currPath = folder.Path;
-                RefreshAllDisplays(currPath);
 
                 this.lst_folderTags.Items.Clear();
 
                 GetMetaFileFromFolder(folder);
+                RefreshAllDisplays(currPath);
             }
             else
             {
                 this.txt_currDir.Text = "Operation cancelled.";
             }
         }
-        async private void GetMetaFileFromFolder(StorageFolder folder)
+        private async void GetMetaFileFromFolder(StorageFolder folder)
         {
             if (folder.GetFileAsync("_meta.fm") != null)
             {
                 try
                 {
                     currMetaFile = await folder.GetFileAsync("_meta.fm");
-                    ReadMetaFile();
+                    //ReadMetaFile();
+                    IRandomAccessStream iras = await currMetaFile.OpenAsync(FileAccessMode.ReadWrite);
+                    Stream stream = iras.AsStreamForRead();
+                    metaBuffer = new byte[stream.Length];
+                    stream.Read(metaBuffer, 0, (int)stream.Length);
+                    stream.Close();
                     ParseMetaFile(folder);
 
                 }
@@ -129,11 +141,7 @@ namespace FileManager
         }
         private async void ReadMetaFile()
         {
-            IRandomAccessStream iras = await currMetaFile.OpenAsync(FileAccessMode.ReadWrite);
-            Stream stream = iras.AsStreamForRead();
-            metaBuffer = new byte[stream.Length];
-            stream.Read(metaBuffer, 0, (int)stream.Length);
-            stream.Close();
+            
         }
         private void ParseMetaFile(StorageFolder folder)
         {
@@ -216,11 +224,6 @@ namespace FileManager
             }
         }
 
-        private void btn_createBaseFML_Click(object sender, RoutedEventArgs e)
-        {
-
-            Xml.WriteToXmlFile(baseFML.Path, new Fml(), false);
-        }
     }
 
 }

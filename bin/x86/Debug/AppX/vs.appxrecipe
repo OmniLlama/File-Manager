@@ -30,13 +30,13 @@
     <AppXManifest Include="E:\_LocalProjects\FileManager\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2020-11-13T16:57:11.423</Modified>
+      <Modified>2020-11-13T21:47:01.201</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="E:\_LocalProjects\FileManager\bin\x86\Debug\FileManager.exe">
       <PackagePath>entrypoint\FileManager.exe</PackagePath>
-      <Modified>2020-11-13T16:57:11.077</Modified>
+      <Modified>2020-11-13T21:47:00.606</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\UWPNuGetPackages\runtime.win10-x86.microsoft.netcore.universalwindowsplatform\6.2.10\runtimes\win10-x86\lib\uap10.0.15138\System.Runtime.dll">
       <PackagePath>System.Runtime.dll</PackagePath>
@@ -86,15 +86,15 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="E:\_LocalProjects\FileManager\bin\x86\Debug\FileManager.xr.xml">
       <PackagePath>FileManager.xr.xml</PackagePath>
-      <Modified>2020-11-13T00:03:36.353</Modified>
+      <Modified>2020-11-13T21:03:56.932</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="E:\_LocalProjects\FileManager\bin\x86\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2020-11-13T16:48:51.588</Modified>
+      <Modified>2020-11-13T21:09:04.407</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="E:\_LocalProjects\FileManager\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
-      <Modified>2020-11-13T16:48:51.588</Modified>
+      <Modified>2020-11-13T21:09:04.407</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.18362.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -106,7 +106,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="E:\_LocalProjects\FileManager\bin\x86\Debug\Core\FileManager.exe">
       <PackagePath>FileManager.exe</PackagePath>
-      <Modified>2020-11-13T16:57:11.420</Modified>
+      <Modified>2020-11-13T21:47:01.181</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>
