@@ -1,32 +1,104 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Windows.Storage;
 
 namespace FileManager
 {
-    class FolderInfo
+    public abstract class Info
     {
         string name;
-        List<string> tags;
-        StorageFolder stFolder;
-        public FolderInfo(string n, List<string> tgs)
+        string path;
+        public Info() { }
+        public Info(string n, string p)
         {
             name = n;
+            path = p;
+        }
+    }
+    public class FolderInfo : Info
+    {
+        List<string> tags;
+        List<FileInfo> files;
+        public FolderInfo() : base() { }
+        public FolderInfo(string n, string p, List<string> tgs) : base(n, p)
+        {
             tags = tgs;
         }
     }
-    class FileInfo
+    public class FileInfo : Info
     {
-        string name;
         List<string> tags;
-        StorageFile stFile;
-        public FileInfo(string n, List<string> tgs)
+        public FileInfo() : base() { }
+        public FileInfo(string n, string p, List<string> tgs) : base(n, p)
         {
-            name = n;
             tags = tgs;
         }
     }
+    public class Fml
+    {
+        public FolderInfo folder;
+        public List<FileInfo> files;
+        public Fml()
+        {
+            folder = null;
+            files = null;
+        }
+    }
+    static public class Xml
+    {
+        /// <summary>
+        /// Writes the given object instance to an XML file.
+        /// <para>Only Public properties and variables will be written to the file. These can be any type though, even other classes.</para>
+        /// <para>If there are public properties/variables that you do not want written to the file, decorate them with the [XmlIgnore] attribute.</para>
+        /// <para>Object type must have a parameterless constructor.</para>
+        /// </summary>
+        /// <typeparam name="T">The type of object being written to the file.</typeparam>
+        /// <param name="filePath">The file path to write the object instance to.</param>
+        /// <param name="objectToWrite">The object instance to write to the file.</param>
+        /// <param name="append">If false the file will be overwritten if it already exists. If true the contents will be appended to the file.</param>
+        public static void WriteToXmlFile<T>(string filePath, T objectToWrite, bool append = false) where T : new()
+        {
+            TextWriter writer = null;
+            try
+            {
+                var serializer = new XmlSerializer(typeof(T));
+                writer = new StreamWriter(filePath, append);
+                serializer.Serialize(writer, objectToWrite);
+            }
+            finally
+            {
+                if (writer != null)
+                    writer.Close();
+            }
+        }
+
+        /// <summary>
+        /// Reads an object instance from an XML file.
+        /// <para>Object type must have a parameterless constructor.</para>
+        /// </summary>
+        /// <typeparam name="T">The type of object to read from the file.</typeparam>
+        /// <param name="filePath">The file path to read the object instance from.</param>
+        /// <returns>Returns a new instance of the object read from the XML file.</returns>
+        public static T ReadFromXmlFile<T>(string filePath) where T : new()
+        {
+            TextReader reader = null;
+            try
+            {
+                var serializer = new XmlSerializer(typeof(T));
+                reader = new StreamReader(filePath);
+                return (T)serializer.Deserialize(reader);
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+    }
+
 }

@@ -17,8 +17,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace FileManager
 {
     /// <summary>
@@ -26,6 +24,10 @@ namespace FileManager
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public static MainPage Inst;
+        StorageFolder installedLocationFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+        StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+        StorageFile baseFML;
         public StorageFile currMetaFile;
         FolderInfo currFolderInfo;
         FileInfo currFileInfo;
@@ -38,25 +40,26 @@ namespace FileManager
         string[] currFiles;
         public string currPath = "E:";
 
-        int tagBufferSize = 4096;
-        byte[] tagBuffer;
+        byte[] metaBuffer;
         string tagString;
         string[] idxTagLines;
-        List<string> dirTags;
+        List<string> idxTags;
 
         public MainPage()
         {
+            StartApplication();
             InitializeComponent();
             OpenBrowser();
         }
 
 
 
-        private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
+        public async void StartApplication()
         {
+            Inst = this;
+            baseFML = await localFolder.GetFileAsync("base.fml");
 
         }
-
         private void lst_files_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ChangeFileSelection();
@@ -75,12 +78,22 @@ namespace FileManager
             RefreshDirDisplay(currPath);
             RefreshFileDisplay(currPath);
         }
+
+        private void btn_addTag_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private async void ParseBaseFML(StorageFolder folder)
+        {
+            //File.OpenWrite($"{AppDomain.CurrentDomain.BaseDirectory}\\base.fml");
+
+        }
+
         async private void OpenBrowser()
         {
             var folderPicker = new Windows.Storage.Pickers.FolderPicker();
             folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
             folderPicker.FileTypeFilter.Add("*");
-
             StorageFolder folder = await folderPicker.PickSingleFolderAsync();
             if (folder != null)
             {
@@ -89,13 +102,13 @@ namespace FileManager
                 currPath = folder.Path;
                 RefreshAllDisplays(currPath);
 
-                lst_folderTags.Items.Clear();
+                this.lst_folderTags.Items.Clear();
 
                 GetMetaFileFromFolder(folder);
             }
             else
             {
-                txt_currDir.Text = "Operation cancelled.";
+                this.txt_currDir.Text = "Operation cancelled.";
             }
         }
         async private void GetMetaFileFromFolder(StorageFolder folder)
@@ -105,11 +118,7 @@ namespace FileManager
                 try
                 {
                     currMetaFile = await folder.GetFileAsync("_meta.fm");
-                    IRandomAccessStream iras = await currMetaFile.OpenAsync(FileAccessMode.ReadWrite);
-                    Stream stream = iras.AsStreamForRead();
-                    tagBuffer = new byte[stream.Length];
-                    stream.Read(tagBuffer, 0, (int)stream.Length);
-                    stream.Close();
+                    ReadMetaFile();
                     ParseMetaFile(folder);
 
                 }
@@ -119,31 +128,45 @@ namespace FileManager
                 }
             }
         }
+        private async void ReadMetaFile()
+        {
+            IRandomAccessStream iras = await currMetaFile.OpenAsync(FileAccessMode.ReadWrite);
+            Stream stream = iras.AsStreamForRead();
+            metaBuffer = new byte[stream.Length];
+            stream.Read(metaBuffer, 0, (int)stream.Length);
+            stream.Close();
+        }
         private void ParseMetaFile(StorageFolder folder)
         {
-            dirTags = new List<string>();
-            tagString = System.Text.Encoding.Default.GetString(tagBuffer);
-            tagString = tagString.Replace("\r", "").Replace("\n", "");
-            var temp = tagString.Split("@");
-            idxTagLines = temp.First().Split("|").Skip(1).ToArray();
-            currTaggedFiles = temp.Skip(1).ToArray();
+            idxTags = new List<string>();
+            tagString = System.Text.Encoding.Default.GetString(metaBuffer);
+            var temp_sects = tagString.Replace("\r", "").Replace("\n", "").Split("@");
+            idxTagLines = temp_sects.First().Split("|").Skip(1).ToArray();
+            var temp_taggedFiles = temp_sects.Skip(1).ToArray();
+            currTaggedFiles = new string[temp_taggedFiles.Length];
 
-            List<string> tempTags = new List<string>();
+
+            List<string> temp_tags = new List<string>();
             foreach (string tag in idxTagLines)
             {
                 if (tag.Length > 0)
                 {
-                    string tempTag = tag.Trim('|');
-                    dirTags.Add(tempTag);
-                    tempTags.Add(tempTag);
-                    lst_folderTags.Items.Add(tempTag);
+                    string temp_tag = tag.Trim('|');
+                    idxTags.Add(temp_tag);
+                    temp_tags.Add(temp_tag);
+                    this.lst_folderTags.Items.Add(temp_tag);
                 }
             }
-            currFolderInfo = new FolderInfo(folder.Name, tempTags);
+            currFolderInfo = new FolderInfo(folder.Name, folder.Path, temp_tags);
+            for (int i = 0; i < temp_taggedFiles.Length; i++)
+            {
+
+                currTaggedFiles[i] = temp_taggedFiles[i].Split("#").First();
+            }
         }
         private void RefreshAllDisplays(string path)
         {
-            txt_currDir.Text = path;
+            this.txt_currDir.Text = path;
             RefreshDirDisplay(path);
             RefreshFileDisplay(path);
         }
@@ -151,47 +174,54 @@ namespace FileManager
         private void RefreshDirDisplay(string path)
         {
             currDirs = Directory.GetDirectories(path);
-            lst_dirs.Items.Clear();
+            this.lst_dirs.Items.Clear();
             foreach (string dir in currDirs)
             {
                 ListViewItem lvi = new ListViewItem();
                 lvi.FontWeight = FontWeights.Bold;
                 lvi.Content = dir;
-                lst_dirs.Items.Add(lvi);
+                this.lst_dirs.Items.Add(lvi);
             }
 
         }
         private void RefreshFileDisplay(string path)
         {
             currFiles = Directory.GetFiles(path);
-            lst_files.Items.Clear();
+            this.lst_files.Items.Clear();
             foreach (string file in currFiles)
             {
                 ListViewItem lvi = new ListViewItem();
                 string name = Path.GetFileName(file);
                 lvi.Content = $"{name}";
-                lst_files.Items.Add(lvi);
+                this.lst_files.Items.Add(lvi);
             }
         }
         private void ChangeFileSelection()
         {
-            lst_fileTags.Items.Clear();
-            if (lst_files.SelectedItem == null) return;
+            this.lst_fileTags.Items.Clear();
+            if (this.lst_files.SelectedItem == null) return;
 
             ListViewItem lvi = lst_files.SelectedItem as ListViewItem;
             if (currTaggedFiles == null) return;
             for (int i = 0; i < currTaggedFiles.Length; i++)
             {
-                if (currTaggedFiles[i].Contains($"{lvi.Content}"))
+                if (currTaggedFiles[i].Equals($"{lvi.Content}"))
                 {
                     string[] tagArr = currTaggedFiles[i].Split("#").Skip(1).ToArray();
                     foreach (string tag in tagArr)
                     {
                         if (tag.Length > 0)
-                            lst_fileTags.Items.Add(tag.Replace("\n", ""));
+                            this.lst_fileTags.Items.Add(tag.Replace("\n", ""));
                     }
                 }
             }
+        }
+
+        private void btn_createBaseFML_Click(object sender, RoutedEventArgs e)
+        {
+
+            Xml.WriteToXmlFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"base.fml"), new Fml(), false);
+            //Xml.WriteToXmlFile<Fml>($"C:\\base.fml", new Fml());
         }
     }
 

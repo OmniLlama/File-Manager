@@ -9,20 +9,23 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <ListView x:ConnectionId='2' x:Name="lst_files" Margin="0,340,658,64"                                               BorderBrush="#FF999999" Background="#FF1D1D1D">
+        <ListView x:ConnectionId='2' x:Name="lst_files" Margin="0,340,960,64"                                               BorderBrush="#FF999999" Background="#FF1D1D1D">
             <ListViewItem Content="Test 1"/>
             <ListViewItem Content="Test 2"/>
         </ListView>
         <Button x:ConnectionId='3' x:Name="btn_refresh" Content="Refresh" Margin="10,10,0,0" VerticalAlignment="Top"                           Height="32"/>
-        <TextBlock x:ConnectionId='4' x:Name="txt_currDir" HorizontalAlignment="Left" Margin="573,16,0,0" Text="Directory" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="686"                                              />
-        <ListView x:ConnectionId='5' x:Name="lst_dirs" Margin="0,89,658,745"                                              Background="#FF151515" BorderBrush="White">
+        <TextBlock x:ConnectionId='4' x:Name="txt_currDir" HorizontalAlignment="Left" Margin="281,16,0,0" Text="Directory" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="686"/>
+        <ListView x:ConnectionId='5' x:Name="lst_dirs" Margin="0,89,960,745"                                              Background="#FF151515" BorderBrush="White">
             <ListViewItem Content="Dir 1"/>
         </ListView>
         <Button x:ConnectionId='6' x:Name="btn_browse" Content="Browse" Margin="104,10,0,0" VerticalAlignment="Top"                          Width="64" Height="32"/>
-        <TextBlock x:ConnectionId='7' x:Name="txt_tags" HorizontalAlignment="Left" Margin="1289,65,0,0" Text="Folder Tags" TextWrapping="Wrap" VerticalAlignment="Top" Width="211"/>
-        <ListView x:ConnectionId='8' x:Name="lst_folderTags" Margin="1284,89,106,755" BorderBrush="#FFC9C2C2" Foreground="#FFFFC0C0" Background="#FF404040"/>
-        <TextBlock x:ConnectionId='9' x:Name="txt_fileTags" HorizontalAlignment="Left" Margin="1289,347,0,0" Text="File Tags" TextWrapping="Wrap" VerticalAlignment="Top" Width="188"/>
-        <ListView x:ConnectionId='10' x:Name="lst_fileTags" Margin="1284,371,106,473" BorderBrush="#FFC9C2C2" Foreground="#FFFFC0C0" Background="#FF404040"/>
+        <TextBlock x:ConnectionId='7' x:Name="txt_tags" HorizontalAlignment="Left" Margin="997,65,0,0" Text="Folder Tags" TextWrapping="Wrap" VerticalAlignment="Top" Width="211"/>
+        <ListView x:ConnectionId='8' x:Name="lst_folderTags" Margin="992,89,398,755" BorderBrush="#FFC9C2C2" Foreground="#FFFFC0C0" Background="#FF404040"/>
+        <TextBlock x:ConnectionId='9' x:Name="txt_fileTags" HorizontalAlignment="Left" Margin="997,347,0,0" Text="File Tags" TextWrapping="Wrap" VerticalAlignment="Top" Width="188"/>
+        <ListView x:ConnectionId='10' x:Name="lst_fileTags" Margin="992,371,398,473" BorderBrush="#FFC9C2C2" Foreground="#FFFFC0C0" Background="#FF404040"/>
+        <TextBox x:ConnectionId='11' x:Name="txtbox_tagInput" HorizontalAlignment="Left" Margin="992,629,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="480" Background="#66699FFF" PlaceholderText="Add Tag To File"/>
+        <Button x:ConnectionId='12' x:Name="btn_addTag" Content="Add" Margin="992,678,0,0" VerticalAlignment="Top"                         />
+        <Button x:ConnectionId='13' x:Name="btn_createBaseFML" Content="Create FML" Margin="1038,800,0,0" VerticalAlignment="Top"                                />
 
     </Grid>
 </Page>
