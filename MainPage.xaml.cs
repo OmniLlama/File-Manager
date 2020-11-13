@@ -85,7 +85,6 @@ namespace FileManager
         }
         private async void ParseBaseFML(StorageFolder folder)
         {
-            //File.OpenWrite($"{AppDomain.CurrentDomain.BaseDirectory}\\base.fml");
 
         }
 
@@ -220,8 +219,7 @@ namespace FileManager
         private void btn_createBaseFML_Click(object sender, RoutedEventArgs e)
         {
 
-            Xml.WriteToXmlFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"base.fml"), new Fml(), false);
-            //Xml.WriteToXmlFile<Fml>($"C:\\base.fml", new Fml());
+            Xml.WriteToXmlFile(baseFML.Path, new Fml(), false);
         }
     }
 
