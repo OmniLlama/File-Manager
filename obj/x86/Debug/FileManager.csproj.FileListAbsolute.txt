@@ -43,3 +43,8 @@ E:\_LocalProjects\FileManager\obj\x86\Debug\qualifiers.txt.intermediate
 E:\_LocalProjects\FileManager\obj\x86\Debug\MultipleQualifiersPerDimensionFound.txt
 E:\_LocalProjects\FileManager\obj\x86\Debug\ProjectArchitectures.txt
 E:\_LocalProjects\FileManager\obj\x86\Debug\.winmd_cache\$Microsoft.UI.Xaml.Markup.winmd_636885526160000000.json
+E:\_LocalProjects\FileManager\obj\x86\Debug\FmlEditor.g.i.cs
+E:\_LocalProjects\FileManager\obj\x86\Debug\FmlEditor.g.cs
+E:\_LocalProjects\FileManager\obj\x86\Debug\FmlEditor.xaml
+E:\_LocalProjects\FileManager\obj\x86\Debug\FmlEditor.xbf
+E:\_LocalProjects\FileManager\bin\x86\Debug\FmlEditor.xbf

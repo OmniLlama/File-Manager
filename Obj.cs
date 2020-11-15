@@ -11,10 +11,15 @@ namespace FileManager
 {
     public abstract class Info
     {
-        string name;
-        string path;
-        public Info() { }
-        public Info(string n, string p)
+        public string name;
+        public string path;
+        public List<string> tags;
+
+        public Info()
+        {
+            tags = new List<string>();
+        }
+        public Info(string n, string p) : base()
         {
             name = n;
             path = p;
@@ -22,8 +27,7 @@ namespace FileManager
     }
     public class FolderInfo : Info
     {
-        List<string> tags;
-        List<FileInfo> files;
+        public List<FileInfo> files;
         public FolderInfo() : base() { }
         public FolderInfo(string n, string p, List<string> tgs) : base(n, p)
         {
@@ -32,21 +36,50 @@ namespace FileManager
     }
     public class FileInfo : Info
     {
-        List<string> tags;
         public FileInfo() : base() { }
         public FileInfo(string n, string p, List<string> tgs) : base(n, p)
         {
             tags = tgs;
         }
     }
+    public class PseudoFile
+    {
+        public string name;
+        public string path;
+        public PseudoFile() { }
+        public PseudoFile(string n, string p)
+        {
+            name = n;
+            path = p;
+        }
+    }
+    public class PseudoFolder
+    {
+        public string name;
+        public List<string> tags;
+        public List<PseudoFile> psFiles;
+        public PseudoFolder()
+        {
+            name = "new pFolder";
+        }
+    }
     public class Fml
     {
+        public string path;
         public FolderInfo folder;
         public List<FileInfo> files;
+        public List<PseudoFolder> psFolders;
         public Fml()
         {
-            folder = null;
-            files = null;
+            //folder = null;
+            //files = null;
+            folder = new FolderInfo();
+            files = new List<FileInfo>();
+            psFolders = new List<PseudoFolder>();
+        }
+        public void WriteToBaseFML(bool overwrite)
+        {
+            Xml.WriteToXmlFile(this.path, this, overwrite);
         }
     }
     static public class Xml

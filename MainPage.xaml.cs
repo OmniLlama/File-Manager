@@ -25,9 +25,10 @@ namespace FileManager
     public sealed partial class MainPage : Page
     {
         public static MainPage Inst;
+        public Fml fml;
         StorageFolder installedLocationFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
         StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-        StorageFile baseFML;
+        public StorageFile fmlStorFil;
         public StorageFile currMetaFile;
         FolderInfo currFolderInfo;
         FileInfo currFileInfo;
@@ -59,12 +60,16 @@ namespace FileManager
             Inst = this;
             try
             {
-                baseFML = await localFolder.GetFileAsync("base.fml");
+                fmlStorFil = await localFolder.GetFileAsync("base.fml");
+                fml = Xml.ReadFromXmlFile<Fml>(fmlStorFil.Path);
             }
             catch
             {
-                baseFML = await localFolder.CreateFileAsync("base.fml");
-                Xml.WriteToXmlFile(baseFML.Path, new Fml(), false);
+                fml = new Fml();
+                fmlStorFil = await localFolder.CreateFileAsync("base.fml");
+                fml.path = fmlStorFil.Path;
+                fml.WriteToBaseFML(false);
+                //Xml.WriteToXmlFile(baseFML.Path, fml, false);
             }
         }
         private void lst_files_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -224,6 +229,11 @@ namespace FileManager
             }
         }
 
+        private void btn_fmlEditor_Click(object sender, RoutedEventArgs e)
+        {
+            var fmlEd = new FmlEditor();
+            this.Content = fmlEd;
+        }
     }
 
 }
