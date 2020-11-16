@@ -9,13 +9,24 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Button x:Name="btn_addFile" Content="Add File" Margin="155,10,0,0" VerticalAlignment="Top" Click="btn_addFile_Click"/>
-        <Button x:Name="btn_addPseudoFolder" Content="Add PseudoFolder" Margin="16,10,0,0" VerticalAlignment="Top" Click="btn_addPseudoFolder_Click"/>
-        <ListView x:Name="lst_pseudoFolders" Margin="16,58,1188,96" BorderBrush="#FFFF8282" Background="#FF322727" SelectionChanged="lst_pseudoFolders_SelectionChanged"/>
-        <ListView x:Name="lst_pseudoFolderFiles" Margin="776,58,359,96" Background="#FF212721"/>
-        <TextBox x:Name="txtbox_pseudoFolderName" HorizontalAlignment="Left" Margin="16,989,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="716" Background="#667E7E7E"/>
-        <Button x:Name="btn_updatePseudoFolderName" Content="Update" Margin="16,1026,0,0" VerticalAlignment="Top" Click="btn_updatePseudoFolderName_Click"/>
+        <Button x:Name="btn_addPseudoFile" Content="+" Margin="776,10,0,0" VerticalAlignment="Top" Click="btn_addPseudoFile_Click"/>
+        <Button x:Name="btn_addPseudoFolder" Content="+" Margin="16,10,0,0" VerticalAlignment="Top" Click="btn_addPseudoFolder_Click"/>
+        <ListView x:Name="lst_pseudoFolders" Margin="16,58,1188,540" BorderBrush="#FFFF8282" Background="#FF322727" SelectionChanged="lst_pseudoFolders_SelectionChanged" CanDragItems="True"/>
+        <ListView x:Name="lst_pseudoFolderFiles" Margin="776,58,359,540" Background="#FF212721" SelectionChanged="lst_pseudoFolderFiles_SelectionChanged"/>
+        <TextBox x:Name="txtbox_pseudoFolderName" HorizontalAlignment="Left" Margin="17,551,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="644" Background="#667E7E7E" PlaceholderText="Modify Folder Name"/>
+        <Button x:Name="btn_updatePseudoFolderName" Content="Update" Margin="666,551,0,0" VerticalAlignment="Top" Click="btn_updatePseudoFolderName_Click"/>
         <Button x:Name="btn_saveFML" Content="Save FML" Margin="251,10,0,0" VerticalAlignment="Top" Click="btn_saveFML_Click"/>
+        <Button x:Name="btn_removePseudoFile" Content="-" Margin="811,10,0,0" VerticalAlignment="Top" Click="btn_removePseudoFile_Click"/>
+        <Button x:Name="btn_openPseudoFile" Content="Open File" Margin="1482,10,0,0" VerticalAlignment="Top" Click="btn_openPseudoFile_Click"/>
+        <ListView x:Name="lst_pseudoFolderTags" Margin="17,625,1188,96" Background="#FF2B2411"/>
+        <ListView x:Name="lst_pseudoFileTags" Margin="776,625,359,96" Background="#FF23403D" SelectionChanged="lst_pseudoFileTags_SelectionChanged"/>
+        <Button x:Name="btn_removePseudoFolder" Content="-" Margin="51,10,0,0" VerticalAlignment="Top" Click="btn_removePseudoFolder_Click"/>
+        <TextBox x:Name="txtbox_folderTag" HorizontalAlignment="Left" Margin="17,588,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="169" PlaceholderText="Folder Tags"/>
+        <Button x:Name="btn_addFolderTag" Content="+" Margin="191,588,0,0" VerticalAlignment="Top" Click="btn_addFolderTag_Click"/>
+        <Button x:Name="btn_removeFolderTag" Content="-" Margin="226,588,0,0" VerticalAlignment="Top" Click="btn_removeFolderTag_Click"/>
+        <TextBox x:Name="txtbox_fileTag" HorizontalAlignment="Left" Margin="776,588,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="File Tags" Width="184"/>
+        <Button x:Name="btn_addFileTag" Content="+" Margin="965,588,0,0" VerticalAlignment="Top" Click="btn_addFileTag_Click"/>
+        <Button x:Name="btn_removeFileTag" Content="-" Margin="1000,588,0,0" VerticalAlignment="Top" Click="btn_removeFileTag_Click"/>
 
     </Grid>
 </Page>

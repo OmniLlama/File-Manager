@@ -46,11 +46,16 @@ namespace FileManager
     {
         public string name;
         public string path;
+        public List<string> tags;
         public PseudoFile() { }
         public PseudoFile(string n, string p)
         {
             name = n;
             path = p;
+        }
+        public override string ToString()
+        {
+            return name;
         }
     }
     public class PseudoFolder
@@ -60,24 +65,27 @@ namespace FileManager
         public List<PseudoFile> psFiles;
         public PseudoFolder()
         {
-            name = "new pFolder";
+            name = "new psFolder";
+            psFiles = new List<PseudoFile>();
+            tags = new List<string>();
+        }
+        public override string ToString()
+        {
+            return $"{name} | {psFiles.Count} files | {tags.Count} tags";
         }
     }
     public class Fml
     {
+        public static Fml curr;
         public string path;
-        public FolderInfo folder;
-        public List<FileInfo> files;
         public List<PseudoFolder> psFolders;
         public Fml()
         {
-            //folder = null;
-            //files = null;
-            folder = new FolderInfo();
-            files = new List<FileInfo>();
+            //folder = new FolderInfo();
+            //files = new List<FileInfo>();
             psFolders = new List<PseudoFolder>();
         }
-        public void WriteToBaseFML(bool overwrite)
+        public void WriteToFile(bool overwrite)
         {
             Xml.WriteToXmlFile(this.path, this, overwrite);
         }

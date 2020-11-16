@@ -25,11 +25,10 @@ namespace FileManager
     public sealed partial class MainPage : Page
     {
         public static MainPage Inst;
-        public Fml fml;
         StorageFolder installedLocationFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
         StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-        public StorageFile fmlStorFil;
-        public StorageFile currMetaFile;
+        public StorageFile sfFML;
+        public StorageFile sfMetaFile;
         FolderInfo currFolderInfo;
         FileInfo currFileInfo;
         List<FileInfo> currFilesInfo;
@@ -60,16 +59,15 @@ namespace FileManager
             Inst = this;
             try
             {
-                fmlStorFil = await localFolder.GetFileAsync("base.fml");
-                fml = Xml.ReadFromXmlFile<Fml>(fmlStorFil.Path);
+                sfFML = await localFolder.GetFileAsync("base.fml");
+                Fml.curr = Xml.ReadFromXmlFile<Fml>(sfFML.Path);
             }
             catch
             {
-                fml = new Fml();
-                fmlStorFil = await localFolder.CreateFileAsync("base.fml");
-                fml.path = fmlStorFil.Path;
-                fml.WriteToBaseFML(false);
-                //Xml.WriteToXmlFile(baseFML.Path, fml, false);
+                Fml.curr = new Fml();
+                sfFML = await localFolder.CreateFileAsync("base.fml");
+                Fml.curr.path = sfFML.Path;
+                Fml.curr.WriteToFile(false);
             }
         }
         private void lst_files_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -128,9 +126,9 @@ namespace FileManager
             {
                 try
                 {
-                    currMetaFile = await folder.GetFileAsync("_meta.fm");
+                    sfMetaFile = await folder.GetFileAsync("_meta.fm");
                     //ReadMetaFile();
-                    IRandomAccessStream iras = await currMetaFile.OpenAsync(FileAccessMode.ReadWrite);
+                    IRandomAccessStream iras = await sfMetaFile.OpenAsync(FileAccessMode.ReadWrite);
                     Stream stream = iras.AsStreamForRead();
                     metaBuffer = new byte[stream.Length];
                     stream.Read(metaBuffer, 0, (int)stream.Length);
@@ -140,7 +138,7 @@ namespace FileManager
                 }
                 catch
                 {
-                    currMetaFile = null;
+                    sfMetaFile = null;
                 }
             }
         }
