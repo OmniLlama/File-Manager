@@ -12,7 +12,7 @@
         <Button x:ConnectionId='2' x:Name="btn_addPseudoFile" Content="+" Margin="776,10,0,0" VerticalAlignment="Top"                                />
         <Button x:ConnectionId='3' x:Name="btn_addPseudoFolder" Content="+" Margin="16,10,0,0" VerticalAlignment="Top"                                  />
         <ListView x:ConnectionId='4' x:Name="lst_pseudoFolders" Margin="16,58,1188,540" BorderBrush="#FFFF8282" Background="#FF322727"                                                       CanDragItems="True"/>
-        <ListView x:ConnectionId='5' x:Name="lst_pseudoFolderFiles" Margin="776,58,359,540" Background="#FF212721"                                                          />
+        <ListView x:ConnectionId='5' x:Name="lst_pseudoFolderFiles" Margin="776,58,359,540" Background="#FF212721"                                                           SelectionMode="Multiple"/>
         <TextBox x:ConnectionId='6' x:Name="txtbox_pseudoFolderName" HorizontalAlignment="Left" Margin="17,551,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="644" Background="#667E7E7E" PlaceholderText="Modify Folder Name"/>
         <Button x:ConnectionId='7' x:Name="btn_updatePseudoFolderName" Content="Update" Margin="666,551,0,0" VerticalAlignment="Top"                                         />
         <Button x:ConnectionId='8' x:Name="btn_saveFML" Content="Save FML" Margin="251,10,0,0" VerticalAlignment="Top"                          />

@@ -23,6 +23,7 @@
       <RootProperty Name="BorderBrush" />
       <RootProperty Name="Background" />
       <RootProperty Name="CanDragItems" />
+      <RootProperty Name="SelectionMode" />
       <RootProperty Name="Items" />
       <RootProperty Name="Foreground" />
       <RootEvent Name="SelectionChanged" />

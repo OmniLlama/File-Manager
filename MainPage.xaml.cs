@@ -49,7 +49,7 @@ namespace FileManager
         {
             StartApplication();
             InitializeComponent();
-            OpenBrowser();
+            //OpenBrowser();
         }
 
 

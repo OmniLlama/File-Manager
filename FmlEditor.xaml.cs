@@ -17,7 +17,6 @@ namespace FileManager
         public static FmlEditor Inst;
         public PseudoFolder selPSFolder => lst_pseudoFolders.SelectedValue as PseudoFolder;
         public PseudoFile selPSFile => lst_pseudoFolderFiles.SelectedValue as PseudoFile;
-        public List<PseudoFile> selPSFiles => lst_pseudoFolderFiles.SelectedItems as List<PseudoFile>;
         public string selPSFolderTag => lst_pseudoFolderTags.SelectedValue as string;
         public string selPSFileTag => lst_pseudoFileTags.SelectedValue as string;
         public FmlEditor()
@@ -65,7 +64,7 @@ namespace FileManager
         }
         private void lst_pseudoFileTags_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
         }
         private void btn_updatePseudoFolderName_Click(object sender, RoutedEventArgs e)
         {
@@ -73,16 +72,27 @@ namespace FileManager
             RefreshLists();
         }
 
-        private void btn_saveFML_Click(object sender, RoutedEventArgs e)
+        private void btn_saveFML_Click(object sender, RoutedEventArgs e) 
         {
             Fml.curr.WriteToFile(false);
+            RefreshLists();
         }
 
         private void btn_removePseudoFile_Click(object sender, RoutedEventArgs e)
         {
-            if (selPSFile == null) return;
-            selPSFolder.psFiles.Remove(selPSFile);
-            RefreshPseudoFileList();
+            var files = lst_pseudoFolderFiles.SelectedItems.AsEnumerable();
+            if (files != null)
+            {
+                foreach (PseudoFile ps in files)
+                {
+                    selPSFolder.psFiles.Remove(ps);
+                }
+                RefreshPseudoFileList();
+
+            }
+            //if (selPSFile == null) return;
+            //selPSFolder.psFiles.Remove(selPSFile);
+            //RefreshPseudoFileList();
         }
 
 

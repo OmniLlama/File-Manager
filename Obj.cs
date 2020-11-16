@@ -47,15 +47,18 @@ namespace FileManager
         public string name;
         public string path;
         public List<string> tags;
-        public PseudoFile() { }
-        public PseudoFile(string n, string p)
+        public PseudoFile()
+        {
+            tags = new List<string>();
+        }
+        public PseudoFile(string n, string p): base()
         {
             name = n;
             path = p;
         }
         public override string ToString()
         {
-            return name;
+            return $"{name} | {tags.Count} tags";
         }
     }
     public class PseudoFolder
@@ -81,8 +84,6 @@ namespace FileManager
         public List<PseudoFolder> psFolders;
         public Fml()
         {
-            //folder = new FolderInfo();
-            //files = new List<FileInfo>();
             psFolders = new List<PseudoFolder>();
         }
         public void WriteToFile(bool overwrite)
