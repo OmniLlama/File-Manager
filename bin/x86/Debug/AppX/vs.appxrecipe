@@ -30,13 +30,13 @@
     <AppXManifest Include="E:\_LocalProjects\FileManager\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2020-11-16T03:53:21.678</Modified>
+      <Modified>2020-11-18T23:41:49.929</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="E:\_LocalProjects\FileManager\bin\x86\Debug\FileManager.exe">
       <PackagePath>entrypoint\FileManager.exe</PackagePath>
-      <Modified>2020-11-16T03:53:21.350</Modified>
+      <Modified>2020-11-18T23:41:49.355</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\UWPNuGetPackages\runtime.win10-x86.microsoft.netcore.universalwindowsplatform\6.2.10\runtimes\win10-x86\lib\uap10.0.15138\System.Runtime.dll">
       <PackagePath>System.Runtime.dll</PackagePath>
@@ -86,19 +86,23 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="E:\_LocalProjects\FileManager\bin\x86\Debug\FileManager.xr.xml">
       <PackagePath>FileManager.xr.xml</PackagePath>
-      <Modified>2020-11-16T03:23:36.187</Modified>
+      <Modified>2020-11-18T21:55:17.382</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="E:\_LocalProjects\FileManager\bin\x86\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2020-11-16T03:53:21.221</Modified>
+      <Modified>2020-11-18T23:41:49.218</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="E:\_LocalProjects\FileManager\bin\x86\Debug\FileExplorer.xbf">
+      <PackagePath>FileExplorer.xbf</PackagePath>
+      <Modified>2020-11-18T23:41:49.218</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="E:\_LocalProjects\FileManager\bin\x86\Debug\FmlEditor.xbf">
       <PackagePath>FmlEditor.xbf</PackagePath>
-      <Modified>2020-11-16T03:53:21.221</Modified>
+      <Modified>2020-11-18T23:41:49.218</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="E:\_LocalProjects\FileManager\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
-      <Modified>2020-11-16T03:53:21.222</Modified>
+      <Modified>2020-11-18T23:41:49.218</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.18362.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -106,11 +110,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="E:\_LocalProjects\FileManager\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2020-11-15T22:02:54.282</Modified>
+      <Modified>2020-11-18T18:57:07.593</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="E:\_LocalProjects\FileManager\bin\x86\Debug\Core\FileManager.exe">
       <PackagePath>FileManager.exe</PackagePath>
-      <Modified>2020-11-16T03:53:21.675</Modified>
+      <Modified>2020-11-18T23:41:49.921</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

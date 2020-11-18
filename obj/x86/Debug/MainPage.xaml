@@ -7,28 +7,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
     <Grid>
-        <ListView x:ConnectionId='2' x:Name="lst_files" Margin="15,391,945,13"                                               BorderBrush="#FF999999" Background="#FF1D1D1D">
-            <ListViewItem Content="Test 1"/>
-            <ListViewItem Content="Test 2"/>
-        </ListView>
-        <Button x:ConnectionId='3' x:Name="btn_refresh" Content="Refresh" Margin="25,61,0,0" VerticalAlignment="Top"                           Height="32"/>
-        <TextBlock x:ConnectionId='4' x:Name="txt_currDir" HorizontalAlignment="Left" Margin="296,67,0,0" Text="Directory" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="686"/>
-        <ListView x:ConnectionId='5' x:Name="lst_dirs" Margin="15,140,945,694"                                              Background="#FF151515" BorderBrush="White">
-            <ListViewItem Content="Dir 1"/>
-        </ListView>
-        <Button x:ConnectionId='6' x:Name="btn_browse" Content="Browse" Margin="119,61,0,0" VerticalAlignment="Top"                          Width="64" Height="32"/>
-        <TextBlock x:ConnectionId='7' x:Name="txt_tags" HorizontalAlignment="Left" Margin="1012,116,0,0" Text="Folder Tags" TextWrapping="Wrap" VerticalAlignment="Top" Width="211"/>
-        <ListView x:ConnectionId='8' x:Name="lst_folderTags" Margin="1007,140,383,785" BorderBrush="#FFC9C2C2" Foreground="#FFFFC0C0" Background="#FF404040" />
-        <TextBlock x:ConnectionId='9' x:Name="txt_fileTags" HorizontalAlignment="Left" Margin="1012,464,0,0" Text="File Tags" TextWrapping="Wrap" VerticalAlignment="Top" Width="188"/>
-        <ListView x:ConnectionId='10' x:Name="lst_fileTags" Margin="1007,488,383,356" BorderBrush="#FFC9C2C2" Foreground="#FFFFC0C0" Background="#FF404040"/>
-        <TextBox x:ConnectionId='11' x:Name="txtbox_fileTagInput" HorizontalAlignment="Left" Margin="1007,746,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="480" Background="#66699FFF" PlaceholderText="Add Tag To File" />
-        <Button x:ConnectionId='12' x:Name="btn_addFileTag" Content="Add" Margin="1007,795,0,0" VerticalAlignment="Top"                             />
-        <TextBox x:ConnectionId='13' x:Name="txtbox_folderTagInput" HorizontalAlignment="Left" Margin="1014,325,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Background="#66707DFF" Width="523" PlaceholderText="Add Tag To Folder"/>
-        <Button x:ConnectionId='14' x:Name="btn_addFolderTag" Content="Add" Margin="1014,386,0,0" VerticalAlignment="Top"/>
-        <Button x:ConnectionId='15' x:Name="btn_fmlEditor" Content="FML Editor" Margin="10,10,0,0" VerticalAlignment="Top"                            />
+        <Grid x:ConnectionId='2' x:Name="grd_nav">
+            <NavigationView x:ConnectionId='4' x:Name="nav_main" PaneDisplayMode="Top"                                    VerticalAlignment="Top">
+                <NavigationView.MenuItems>
+                    <NavigationViewItem x:ConnectionId='5' x:Name="nav_fmlEditor" Content="FML Editor" Tag="FmlEditor"/>
+                    <NavigationViewItem x:ConnectionId='6' x:Name="nav_fileExplorer" Content="File Explorer" Tag="FileExplorer"/>
+                </NavigationView.MenuItems>
+            </NavigationView>
+        </Grid>
+        <Frame x:ConnectionId='3' x:Name="frm_main" Margin="0,42,0,0">
 
+        </Frame>
     </Grid>
 </Page>
 

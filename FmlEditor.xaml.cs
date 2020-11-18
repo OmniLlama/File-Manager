@@ -28,8 +28,10 @@ namespace FileManager
         private async void btn_addPseudoFile_Click(object sender, RoutedEventArgs e)
         {
             if (selPSFolder == null) return;
-            var filePicker = new Windows.Storage.Pickers.FileOpenPicker();
-            filePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+            var filePicker = new Windows.Storage.Pickers.FileOpenPicker()
+            {
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+            };
             filePicker.FileTypeFilter.Add("*");
 
             var stoFiles = await filePicker.PickMultipleFilesAsync();
@@ -45,7 +47,7 @@ namespace FileManager
 
         private void btn_addPseudoFolder_Click(object sender, RoutedEventArgs e)
         {
-            Fml.curr.psFolders.Add(new PseudoFolder());
+            FML.curr.psFolders.Add(new PseudoFolder());
             RefreshLists();
         }
 
@@ -74,7 +76,7 @@ namespace FileManager
 
         private void btn_saveFML_Click(object sender, RoutedEventArgs e) 
         {
-            Fml.curr.WriteToFile(false);
+            FML.curr.WriteToFile(false);
             RefreshLists();
         }
 
@@ -90,9 +92,6 @@ namespace FileManager
                 RefreshPseudoFileList();
 
             }
-            //if (selPSFile == null) return;
-            //selPSFolder.psFiles.Remove(selPSFile);
-            //RefreshPseudoFileList();
         }
 
 
@@ -100,7 +99,7 @@ namespace FileManager
         private void btn_removePseudoFolder_Click(object sender, RoutedEventArgs e)
         {
             if (selPSFolder == null) return;
-            Fml.curr.psFolders.Remove(selPSFolder);
+            FML.curr.psFolders.Remove(selPSFolder);
             RefreshPseudoFolderList();
         }
 
@@ -158,7 +157,7 @@ namespace FileManager
         private void RefreshPseudoFolderList()
         {
             lst_pseudoFolders.ItemsSource = null;
-            lst_pseudoFolders.ItemsSource = Fml.curr.psFolders;
+            lst_pseudoFolders.ItemsSource = FML.curr.psFolders;
         }
         private void RefreshPseudoFolderTagList()
         {

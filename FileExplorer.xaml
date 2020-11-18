@@ -1,0 +1,32 @@
+﻿<Page
+    x:Class="FileManager.FileExplorer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FileManager"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <ListView x:Name="lst_files" Margin="15,391,945,13" SelectionChanged="lst_files_SelectionChanged" BorderBrush="#FF999999" Background="#FF1D1D1D">
+            <ListViewItem Content="Test 1"/>
+            <ListViewItem Content="Test 2"/>
+        </ListView>
+        <Button x:Name="btn_refresh" Content="Refresh" Margin="25,61,0,0" VerticalAlignment="Top" Click="btn_refresh_click" Height="32"/>
+        <TextBlock x:Name="txt_currDir" HorizontalAlignment="Left" Margin="296,67,0,0" Text="Directory" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="686"/>
+        <ListView x:Name="lst_dirs" Margin="15,140,945,694" SelectionChanged="lst_dirs_SelectionChanged" Background="#FF151515" BorderBrush="White">
+            <ListViewItem Content="Dir 1"/>
+        </ListView>
+        <Button x:Name="btn_browse" Content="Browse" Margin="119,61,0,0" VerticalAlignment="Top" Click="btn_browse_click" Width="64" Height="32"/>
+        <TextBlock x:Name="txt_tags" HorizontalAlignment="Left" Margin="1012,116,0,0" Text="Folder Tags" TextWrapping="Wrap" VerticalAlignment="Top" Width="211"/>
+        <ListView x:Name="lst_folderTags" Margin="1007,140,383,785" BorderBrush="#FFC9C2C2" Foreground="#FFFFC0C0" Background="#FF404040" />
+        <TextBlock x:Name="txt_fileTags" HorizontalAlignment="Left" Margin="1012,464,0,0" Text="File Tags" TextWrapping="Wrap" VerticalAlignment="Top" Width="188"/>
+        <ListView x:Name="lst_fileTags" Margin="1007,488,383,356" BorderBrush="#FFC9C2C2" Foreground="#FFFFC0C0" Background="#FF404040"/>
+        <TextBox x:Name="txtbox_fileTagInput" HorizontalAlignment="Left" Margin="1007,746,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="480" Background="#66699FFF" PlaceholderText="Add Tag To File" />
+        <Button x:Name="btn_addFileTag" Content="Add" Margin="1007,795,0,0" VerticalAlignment="Top" Click="btn_addFileTag_Click"/>
+        <TextBox x:Name="txtbox_folderTagInput" HorizontalAlignment="Left" Margin="1014,325,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Background="#66707DFF" Width="523" PlaceholderText="Add Tag To Folder"/>
+        <Button x:Name="btn_addFolderTag" Content="Add" Margin="1014,386,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Page>

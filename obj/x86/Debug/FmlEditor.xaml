@@ -7,27 +7,28 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Frame>
+        <Grid>
+            <Button x:ConnectionId='2' x:Name="btn_addPseudoFile" Content="+" Margin="949,4,0,0" VerticalAlignment="Top"                                 Height="35" Width="37"/>
+            <Button x:ConnectionId='3' x:Name="btn_addPseudoFolder" Content="+" Margin="10,4,0,0" VerticalAlignment="Top"                                   Height="35" Width="37"/>
+            <ListView x:ConnectionId='4' x:Name="lst_pseudoFolders" Margin="10,56,1025,503" BorderBrush="#FFFF8282" Background="#FF322727"                                                       CanDragItems="True"/>
+            <ListView x:ConnectionId='5' x:Name="lst_pseudoFolderFiles" Margin="949,56,1,503" Background="#FF212721"                                                           SelectionMode="Multiple"/>
+            <TextBox x:ConnectionId='6' x:Name="txtbox_pseudoFolderName" HorizontalAlignment="Left" Margin="11,589,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="796" Background="#667E7E7E" PlaceholderText="Modify Folder Name" Height="34"/>
+            <Button x:ConnectionId='7' x:Name="btn_updatePseudoFolderName" Content="Update" Margin="813,589,0,0" VerticalAlignment="Top"                                          Height="34" Width="82"/>
+            <Button x:ConnectionId='8' x:Name="btn_saveFML" Content="Save FML" Margin="797,4,0,0" VerticalAlignment="Top"                           Height="35" Width="98"/>
+            <Button x:ConnectionId='9' x:Name="btn_removePseudoFile" Content="-" Margin="992,4,0,0" VerticalAlignment="Top"                                    Height="35" Width="32"/>
+            <Button x:ConnectionId='10' x:Name="btn_openPseudoFile" Content="Open File" Margin="0,-2,40,0" VerticalAlignment="Top"                                  Height="35" HorizontalAlignment="Right" Width="98"/>
+            <ListView x:ConnectionId='11' x:Name="lst_pseudoFolderTags" Margin="11,668,1025,24" Background="#FF2B2411"/>
+            <ListView x:ConnectionId='12' x:Name="lst_pseudoFileTags" Margin="949,668,1,24" Background="#FF23403D"                                                       />
+            <Button x:ConnectionId='13' x:Name="btn_removePseudoFolder" Content="-" Margin="53,4,0,0" VerticalAlignment="Top"                                      Height="35" Width="32"/>
+            <TextBox x:ConnectionId='14' x:Name="txtbox_folderTag" HorizontalAlignment="Left" Margin="11,628,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="209" PlaceholderText="Folder Tags" Height="35"/>
+            <Button x:ConnectionId='15' x:Name="btn_addFolderTag" Content="+" Margin="226,628,0,0" VerticalAlignment="Top"                                Height="35" Width="37"/>
+            <Button x:ConnectionId='16' x:Name="btn_removeFolderTag" Content="-" Margin="269,628,0,0" VerticalAlignment="Top"                                   Height="35" Width="33"/>
+            <TextBox x:ConnectionId='17' x:Name="txtbox_fileTag" HorizontalAlignment="Left" Margin="949,628,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="File Tags" Width="227" Height="35"/>
+            <Button x:ConnectionId='18' x:Name="btn_addFileTag" Content="+" Margin="1183,628,0,0" VerticalAlignment="Top"                              Height="35" Width="37"/>
+            <Button x:ConnectionId='19' x:Name="btn_removeFileTag" Content="-" Margin="1226,628,0,0" VerticalAlignment="Top"                                 Height="35" Width="32"/>
 
-    <Grid>
-        <Button x:ConnectionId='2' x:Name="btn_addPseudoFile" Content="+" Margin="776,10,0,0" VerticalAlignment="Top"                                />
-        <Button x:ConnectionId='3' x:Name="btn_addPseudoFolder" Content="+" Margin="16,10,0,0" VerticalAlignment="Top"                                  />
-        <ListView x:ConnectionId='4' x:Name="lst_pseudoFolders" Margin="16,58,1188,540" BorderBrush="#FFFF8282" Background="#FF322727"                                                       CanDragItems="True"/>
-        <ListView x:ConnectionId='5' x:Name="lst_pseudoFolderFiles" Margin="776,58,359,540" Background="#FF212721"                                                           SelectionMode="Multiple"/>
-        <TextBox x:ConnectionId='6' x:Name="txtbox_pseudoFolderName" HorizontalAlignment="Left" Margin="17,551,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="644" Background="#667E7E7E" PlaceholderText="Modify Folder Name"/>
-        <Button x:ConnectionId='7' x:Name="btn_updatePseudoFolderName" Content="Update" Margin="666,551,0,0" VerticalAlignment="Top"                                         />
-        <Button x:ConnectionId='8' x:Name="btn_saveFML" Content="Save FML" Margin="251,10,0,0" VerticalAlignment="Top"                          />
-        <Button x:ConnectionId='9' x:Name="btn_removePseudoFile" Content="-" Margin="811,10,0,0" VerticalAlignment="Top"                                   />
-        <Button x:ConnectionId='10' x:Name="btn_openPseudoFile" Content="Open File" Margin="1482,10,0,0" VerticalAlignment="Top"                                 />
-        <ListView x:ConnectionId='11' x:Name="lst_pseudoFolderTags" Margin="17,625,1188,96" Background="#FF2B2411"/>
-        <ListView x:ConnectionId='12' x:Name="lst_pseudoFileTags" Margin="776,625,359,96" Background="#FF23403D"                                                       />
-        <Button x:ConnectionId='13' x:Name="btn_removePseudoFolder" Content="-" Margin="51,10,0,0" VerticalAlignment="Top"                                     />
-        <TextBox x:ConnectionId='14' x:Name="txtbox_folderTag" HorizontalAlignment="Left" Margin="17,588,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="169" PlaceholderText="Folder Tags"/>
-        <Button x:ConnectionId='15' x:Name="btn_addFolderTag" Content="+" Margin="191,588,0,0" VerticalAlignment="Top"                               />
-        <Button x:ConnectionId='16' x:Name="btn_removeFolderTag" Content="-" Margin="226,588,0,0" VerticalAlignment="Top"                                  />
-        <TextBox x:ConnectionId='17' x:Name="txtbox_fileTag" HorizontalAlignment="Left" Margin="776,588,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="File Tags" Width="184"/>
-        <Button x:ConnectionId='18' x:Name="btn_addFileTag" Content="+" Margin="965,588,0,0" VerticalAlignment="Top"                             />
-        <Button x:ConnectionId='19' x:Name="btn_removeFileTag" Content="-" Margin="1000,588,0,0" VerticalAlignment="Top"                                />
-
-    </Grid>
+        </Grid>
+    </Frame>
 </Page>
 

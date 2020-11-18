@@ -9,39 +9,6 @@ using Windows.Storage;
 
 namespace FileManager
 {
-    public abstract class Info
-    {
-        public string name;
-        public string path;
-        public List<string> tags;
-
-        public Info()
-        {
-            tags = new List<string>();
-        }
-        public Info(string n, string p) : base()
-        {
-            name = n;
-            path = p;
-        }
-    }
-    public class FolderInfo : Info
-    {
-        public List<FileInfo> files;
-        public FolderInfo() : base() { }
-        public FolderInfo(string n, string p, List<string> tgs) : base(n, p)
-        {
-            tags = tgs;
-        }
-    }
-    public class FileInfo : Info
-    {
-        public FileInfo() : base() { }
-        public FileInfo(string n, string p, List<string> tgs) : base(n, p)
-        {
-            tags = tgs;
-        }
-    }
     public class PseudoFile
     {
         public string name;
@@ -51,8 +18,9 @@ namespace FileManager
         {
             tags = new List<string>();
         }
-        public PseudoFile(string n, string p): base()
+        public PseudoFile(string n, string p) : this()
         {
+            tags = new List<string>();
             name = n;
             path = p;
         }
@@ -77,12 +45,12 @@ namespace FileManager
             return $"{name} | {psFiles.Count} files | {tags.Count} tags";
         }
     }
-    public class Fml
+    public class FML
     {
-        public static Fml curr;
+        public static FML curr;
         public string path;
         public List<PseudoFolder> psFolders;
-        public Fml()
+        public FML()
         {
             psFolders = new List<PseudoFolder>();
         }
