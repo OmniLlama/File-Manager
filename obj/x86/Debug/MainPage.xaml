@@ -9,16 +9,17 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid>
         <Grid x:ConnectionId='2' x:Name="grd_nav">
-            <NavigationView x:ConnectionId='4' x:Name="nav_main" PaneDisplayMode="Top"                                    VerticalAlignment="Top">
+            <NavigationView x:ConnectionId='5' x:Name="nav_main" PaneDisplayMode="Top"                                    VerticalAlignment="Top">
                 <NavigationView.MenuItems>
-                    <NavigationViewItem x:ConnectionId='5' x:Name="nav_fmlEditor" Content="FML Editor" Tag="FmlEditor"/>
-                    <NavigationViewItem x:ConnectionId='6' x:Name="nav_fileExplorer" Content="File Explorer" Tag="FileExplorer"/>
+                    <NavigationViewItem x:ConnectionId='6' x:Name="nav_fmlEditor" Content="FML Editor" Tag="FmlEditor"/>
+                    <NavigationViewItem x:ConnectionId='7' x:Name="nav_fileExplorer" Content="File Explorer" Tag="FileExplorer"/>
                 </NavigationView.MenuItems>
             </NavigationView>
         </Grid>
-        <Frame x:ConnectionId='3' x:Name="frm_main" Margin="0,42,0,0">
+        <Frame x:ConnectionId='3' x:Name="frm_main" Margin="0,42,0,32" Background="Black">
 
         </Frame>
+        <TextBlock x:ConnectionId='4' x:Name="txt_actionConsole" Margin="10,0,1860,10" Text="Console" TextWrapping="Wrap" Height="19" VerticalAlignment="Bottom"/>
     </Grid>
 </Page>
 

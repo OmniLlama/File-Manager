@@ -90,7 +90,6 @@ namespace FileManager
                     selPSFolder.psFiles.Remove(ps);
                 }
                 RefreshPseudoFileList();
-
             }
         }
 
@@ -112,7 +111,6 @@ namespace FileManager
                 Arguments = selPSFile.path
             };
             Process.Start(psi);
-
         }
 
         private void btn_addFolderTag_Click(object sender, RoutedEventArgs e)

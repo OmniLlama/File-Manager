@@ -12,11 +12,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace FileManager
 {
-    public sealed partial class FileExplorer
+    public sealed partial class FileExplorer : Page
     {
 
-        string[] currDirs;
-        string[] currFiles;
         public string currPath = "E:";
         public StorageFile sfMetaFile;
 
@@ -55,12 +53,8 @@ namespace FileManager
         {
 
         }
-        private async void ParseBaseFML(StorageFolder folder)
-        {
 
-        }
-
-        async private void OpenBrowser()
+        private async void OpenBrowser()
         {
             var folderPicker = new Windows.Storage.Pickers.FolderPicker();
             folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
@@ -110,7 +104,7 @@ namespace FileManager
         private void ParseMetaFile(StorageFolder folder)
         {
             idxTags = new List<string>();
-            tagString = System.Text.Encoding.Default.GetString(metaBuffer);
+            tagString = Encoding.Default.GetString(metaBuffer);
             var temp_sects = tagString.Replace("\r", "").Replace("\n", "").Split("@");
             idxTagLines = temp_sects.First().Split("|").Skip(1).ToArray();
             var temp_taggedFiles = temp_sects.Skip(1).ToArray();
@@ -141,30 +135,17 @@ namespace FileManager
             RefreshFileDisplay(path);
         }
 
-        private void RefreshDirDisplay(string path)
+        private async void RefreshDirDisplay(string path)
         {
-            currDirs = Directory.GetDirectories(path);
-            this.lst_dirs.Items.Clear();
-            foreach (string dir in currDirs)
-            {
-                ListViewItem lvi = new ListViewItem();
-                lvi.FontWeight = FontWeights.Bold;
-                lvi.Content = dir;
-                this.lst_dirs.Items.Add(lvi);
-            }
-
+            StorageFolder sf = await StorageFolder.GetFolderFromPathAsync(path);
+            var sfs = await sf.GetFoldersAsync();
+            this.lst_dirs.ItemsSource = sfs;
         }
-        private void RefreshFileDisplay(string path)
+        private async void RefreshFileDisplay(string path)
         {
-            currFiles = Directory.GetFiles(path);
-            this.lst_files.Items.Clear();
-            foreach (string file in currFiles)
-            {
-                ListViewItem lvi = new ListViewItem();
-                string name = Path.GetFileName(file);
-                lvi.Content = $"{name}";
-                this.lst_files.Items.Add(lvi);
-            }
+            StorageFolder sf = await StorageFolder.GetFolderFromPathAsync(path);
+            var sfs = await sf.GetFilesAsync();
+            this.lst_files.ItemsSource = sfs;
         }
         private void ChangeFileSelection()
         {

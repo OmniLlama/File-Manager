@@ -13,8 +13,8 @@
             <Button x:ConnectionId='3' x:Name="btn_addPseudoFolder" Content="+" Margin="10,4,0,0" VerticalAlignment="Top"                                   Height="35" Width="37"/>
             <ListView x:ConnectionId='4' x:Name="lst_pseudoFolders" Margin="10,56,1025,503" BorderBrush="#FFFF8282" Background="#FF322727"                                                       CanDragItems="True"/>
             <ListView x:ConnectionId='5' x:Name="lst_pseudoFolderFiles" Margin="949,56,1,503" Background="#FF212721"                                                           SelectionMode="Multiple"/>
-            <TextBox x:ConnectionId='6' x:Name="txtbox_pseudoFolderName" HorizontalAlignment="Left" Margin="11,589,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="796" Background="#667E7E7E" PlaceholderText="Modify Folder Name" Height="34"/>
-            <Button x:ConnectionId='7' x:Name="btn_updatePseudoFolderName" Content="Update" Margin="813,589,0,0" VerticalAlignment="Top"                                          Height="34" Width="82"/>
+            <TextBox x:ConnectionId='6' x:Name="txtbox_pseudoFolderName" HorizontalAlignment="Left" Margin="90,4,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="562" Background="#667E7E7E" PlaceholderText="Modify Folder Name" Height="34"/>
+            <Button x:ConnectionId='7' x:Name="btn_updatePseudoFolderName" Content="Update" Margin="657,5,0,0" VerticalAlignment="Top"                                          Height="34" Width="82"/>
             <Button x:ConnectionId='8' x:Name="btn_saveFML" Content="Save FML" Margin="797,4,0,0" VerticalAlignment="Top"                           Height="35" Width="98"/>
             <Button x:ConnectionId='9' x:Name="btn_removePseudoFile" Content="-" Margin="992,4,0,0" VerticalAlignment="Top"                                    Height="35" Width="32"/>
             <Button x:ConnectionId='10' x:Name="btn_openPseudoFile" Content="Open File" Margin="0,-2,40,0" VerticalAlignment="Top"                                  Height="35" HorizontalAlignment="Right" Width="98"/>

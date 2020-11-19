@@ -16,8 +16,9 @@
                 </NavigationView.MenuItems>
             </NavigationView>
         </Grid>
-        <Frame x:Name="frm_main" Margin="0,42,0,0">
+        <Frame x:Name="frm_main" Margin="0,42,0,32" Background="Black">
 
         </Frame>
+        <TextBlock x:Name="txt_actionConsole" Margin="10,0,1860,10" Text="Console" TextWrapping="Wrap" Height="19" VerticalAlignment="Bottom"/>
     </Grid>
 </Page>

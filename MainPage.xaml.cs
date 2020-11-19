@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Navigation;
 namespace FileManager
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// The main page for the app
     /// </summary>
     public sealed partial class MainPage : Page
     {
@@ -58,6 +58,10 @@ namespace FileManager
 
         private void nav_main_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
+            if(args.IsSettingsInvoked)
+            {
+                return;
+            }
             navItem = args.InvokedItemContainer as NavigationViewItem;
             var t = Type.GetType($"FileManager.{navItem.Tag}");
             if (t != null)
