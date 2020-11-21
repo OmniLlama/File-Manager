@@ -9,9 +9,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Button x:ConnectionId='2' x:Name="btn_refresh" Content="Refresh" Margin="25,61,0,0" VerticalAlignment="Top"                           Height="32"/>
-        <Button x:ConnectionId='3' x:Name="btn_browse" Content="Browse" Margin="119,61,0,0" VerticalAlignment="Top"                          Width="64" Height="32"/>
-        <TextBlock x:ConnectionId='4' x:Name="txt_currDir" HorizontalAlignment="Left" Margin="296,67,0,0" Text="Directory" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="686"/>
+        <Button x:ConnectionId='2' x:Name="btn_refresh" Content="Refresh" Margin="1,4,0,0" VerticalAlignment="Top"                           Height="32"/>
+        <Button x:ConnectionId='3' x:Name="btn_browse" Content="Browse" Margin="95,4,0,0" VerticalAlignment="Top"                          Width="64" Height="32"/>
+        <TextBlock x:ConnectionId='4' x:Name="txt_currDir" HorizontalAlignment="Left" Margin="272,10,0,0" Text="Directory" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="686"/>
         <ListView x:ConnectionId='5' x:Name="lst_files" Margin="0,391,945,0"                                               BorderBrush="#FF999999" Background="#FF1D1D1D">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -19,7 +19,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <ListView x:ConnectionId='6' x:Name="lst_dirs" Margin="0,140,945,694"                                              Background="#FF151515" BorderBrush="White">
+        <ListView x:ConnectionId='6' x:Name="lst_dirs" Margin="0,41,945,694"                                              Background="#FF151515" BorderBrush="White">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}" />
