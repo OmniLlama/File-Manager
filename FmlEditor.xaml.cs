@@ -9,6 +9,7 @@ using Windows.Storage;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Diagnostics;
+using Windows.System;
 
 namespace FileManager
 {
@@ -35,14 +36,17 @@ namespace FileManager
             filePicker.FileTypeFilter.Add("*");
 
             var stoFiles = await filePicker.PickMultipleFilesAsync();
+            string s = "";
             if (stoFiles != null)
             {
                 foreach (var sf in stoFiles)
                 {
                     selPSFolder.psFiles.Add(new PseudoFile(sf.Name, sf.Path));
+                    s += $" {sf.Name}";
                 }
             }
             RefreshPseudoFileList();
+            MainPage.WriteToConsole("Added Pseudofile to", selPSFolder.name, s);
         }
 
         private void btn_addPseudoFolder_Click(object sender, RoutedEventArgs e)
@@ -74,10 +78,11 @@ namespace FileManager
             RefreshLists();
         }
 
-        private void btn_saveFML_Click(object sender, RoutedEventArgs e) 
+        private void btn_saveFML_Click(object sender, RoutedEventArgs e)
         {
             FML.curr.WriteToFile(false);
             RefreshLists();
+            MainPage.WriteToConsole("Saved FML", FML.curr.path, DateTime.Now.ToString());
         }
 
         private void btn_removePseudoFile_Click(object sender, RoutedEventArgs e)
@@ -100,17 +105,18 @@ namespace FileManager
             if (selPSFolder == null) return;
             FML.curr.psFolders.Remove(selPSFolder);
             RefreshPseudoFolderList();
+            MainPage.WriteToConsole("Removed PseudoFolder", selPSFolder.name, DateTime.Now.ToString());
         }
 
 
-        private void btn_openPseudoFile_Click(object sender, RoutedEventArgs e)
+        private async void btn_openPseudoFile_Click(object sender, RoutedEventArgs e)
         {
             if (selPSFile == null) return;
-            ProcessStartInfo psi = new ProcessStartInfo("cmd.exe")
-            {
-                Arguments = selPSFile.path
-            };
-            Process.Start(psi);
+            StorageFile sf = await StorageFile.GetFileFromPathAsync(selPSFile.path);
+            if (await Launcher.LaunchFileAsync(sf))
+                MainPage.WriteToConsole("Launched PseudoFile", selPSFile.name, DateTime.Now.ToString());
+            else
+                MainPage.WriteToConsole("FAILED to launch PseudoFile", selPSFile.name, DateTime.Now.ToString());
         }
 
         private void btn_addFolderTag_Click(object sender, RoutedEventArgs e)
@@ -146,6 +152,7 @@ namespace FileManager
         {
             if (selPSFileTag == null || selPSFile == null) return;
             selPSFile.tags.Remove(selPSFileTag);
+            MainPage.WriteToConsole("Removed tag from", selPSFile.name, selPSFileTag);
         }
 
 

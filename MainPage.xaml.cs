@@ -7,6 +7,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -46,6 +47,7 @@ namespace FileManager
             {
                 sfFML = await localFolder.GetFileAsync("base.fml");
                 FML.curr = Xml.ReadFromXmlFile<FML>(sfFML.Path);
+                WriteToConsole("FML Loaded!", sfFML.Path);
             }
             catch
             {
@@ -53,6 +55,7 @@ namespace FileManager
                 sfFML = await localFolder.CreateFileAsync("base.fml");
                 FML.curr.path = sfFML.Path;
                 FML.curr.WriteToFile(false);
+                WriteToConsole("New FML created in local folder!", localFolder.Path);
             }
         }
 
@@ -66,6 +69,18 @@ namespace FileManager
             var t = Type.GetType($"FileManager.{navItem.Tag}");
             if (t != null)
                 this.frm_main.Navigate(t);
+        }
+        public static void WriteToConsole(string s1, string s2 = null, string s3 = null)
+        {
+            Inst.txt_actionConsole1.Text = s1;
+            if(s2 != null)
+                Inst.txt_actionConsole2.Text = s2;
+            else
+                Inst.txt_actionConsole2.Text = "";
+            if (s3 != null)
+                Inst.txt_actionConsole3.Text = s3;
+            else
+                Inst.txt_actionConsole3.Text = "";
         }
     }
 

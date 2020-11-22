@@ -40,6 +40,9 @@ namespace FileManager
             psFiles = new List<PseudoFile>();
             tags = new List<string>();
         }
+        public string Name { get => name; set { name = value; } }
+        public int TagCount { get => tags.Count; }
+        public int FileCount { get => psFiles.Count; }
         public override string ToString()
         {
             return $"{name} | {psFiles.Count} files | {tags.Count} tags";
