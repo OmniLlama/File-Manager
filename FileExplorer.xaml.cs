@@ -76,6 +76,12 @@ namespace FileManager
                 this.txt_currDir.Text = "Operation cancelled.";
             }
         }
+        private void lst_dirs_doubleClick(object sender)
+        {
+            StorageFolder tempSF = sender as StorageFolder;
+            currPath = tempSF.Path;
+            RefreshAllDisplays(currPath);
+        }
         private async void GetMetaFileFromFolder(StorageFolder folder)
         {
             if (folder.GetFileAsync("_meta.fm") != null)

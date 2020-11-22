@@ -12,20 +12,29 @@
         <Button x:ConnectionId='2' x:Name="btn_refresh" Content="Refresh" Margin="1,4,0,0" VerticalAlignment="Top"                           Height="32"/>
         <Button x:ConnectionId='3' x:Name="btn_browse" Content="Browse" Margin="95,4,0,0" VerticalAlignment="Top"                          Width="64" Height="32"/>
         <TextBlock x:ConnectionId='4' x:Name="txt_currDir" HorizontalAlignment="Left" Margin="272,10,0,0" Text="Directory" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="686"/>
-        <ListView x:ConnectionId='5' x:Name="lst_files" Margin="0,391,945,0"                                               BorderBrush="#FF999999" Background="#FF1D1D1D">
-            <ListView.ItemTemplate>
+        <ListView x:ConnectionId='5' x:Name="lst_dirs" Margin="0,41,945,694"                                              Background="#FF151515" BorderBrush="White">
+            <ListView.ItemTemplate >
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Path=Name}" />
+                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <ListView x:ConnectionId='6' x:Name="lst_dirs" Margin="0,41,945,694"                                              Background="#FF151515" BorderBrush="White">
+        <ListView x:ConnectionId='6' x:Name="lst_files" Margin="0,391,945,0"                                               BorderBrush="#FF999999" Background="#FF1D1D1D">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}" />
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Path=Name}" />
+                            <TextBlock Text="{Binding Path=DisplayType}" FontWeight="Bold"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding Path=DateCreated}"/>
+                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
         <TextBlock x:ConnectionId='7' x:Name="txt_tags" HorizontalAlignment="Left" Margin="1012,116,0,0" Text="Folder Tags" TextWrapping="Wrap" VerticalAlignment="Top" Width="211"/>
         <ListView x:ConnectionId='8' x:Name="lst_folderTags" Margin="1007,140,383,785" BorderBrush="#FFC9C2C2" Foreground="#FFFFC0C0" Background="#FF404040" />
         <TextBlock x:ConnectionId='9' x:Name="txt_fileTags" HorizontalAlignment="Left" Margin="1012,464,0,0" Text="File Tags" TextWrapping="Wrap" VerticalAlignment="Top" Width="188"/>
