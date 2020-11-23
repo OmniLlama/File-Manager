@@ -13,6 +13,7 @@
                 <NavigationView.MenuItems>
                     <NavigationViewItem x:Name="nav_fmlEditor" Content="FML Editor" Tag="FmlEditor"/>
                     <NavigationViewItem x:Name="nav_fileExplorer" Content="File Explorer" Tag="FileExplorer"/>
+                    <Button x:Name="btn_saveFML" Content="Save FML" Margin="0,0,0,0" VerticalAlignment="Top" Click="btn_saveFML_Click" Height="35" Width="64" FontSize="10"/>
                 </NavigationView.MenuItems>
             </NavigationView>
         </Grid>

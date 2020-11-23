@@ -17,7 +17,6 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="btn_saveFML" Content="Save FML" Margin="852,5,0,0" VerticalAlignment="Top" Click="btn_saveFML_Click" Height="35" Width="98"/>
 
             <Button x:Name="btn_addPseudoFolder" Content="+" Margin="10,4,0,0" VerticalAlignment="Top" Click="btn_addPseudoFolder_Click" Height="35" Width="37"/>
             <Button x:Name="btn_removePseudoFolder" Content="-" Margin="53,4,0,0" VerticalAlignment="Top" Click="btn_removePseudoFolder_Click" Height="35" Width="32"/>

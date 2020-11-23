@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,12 +10,16 @@ using Windows.Storage;
 
 namespace FileManager
 {
-    public class PseudoFile
+    public class PseudoObject
     {
         public string name;
+        public PseudoObject() { }
+    }
+    public class PseudoFile : PseudoObject
+    {
         public string path;
         public List<string> tags;
-        public PseudoFile()
+        public PseudoFile() : base()
         {
             tags = new List<string>();
         }
@@ -29,12 +34,11 @@ namespace FileManager
             return $"{name} | {tags.Count} tags";
         }
     }
-    public class PseudoFolder
+    public class PseudoFolder : PseudoObject
     {
-        public string name;
         public List<string> tags;
         public List<PseudoFile> psFiles;
-        public PseudoFolder()
+        public PseudoFolder() : base()
         {
             name = "new psFolder";
             psFiles = new List<PseudoFile>();
@@ -53,13 +57,16 @@ namespace FileManager
         public static FML curr;
         public string path;
         public List<PseudoFolder> psFolders;
+        SortedDictionary<string, List<PseudoObject>> tagDict;
+        //public SortedDictionary<string, List<PseudoObject>> TagDictionary { get => tagDict; }
         public FML()
         {
             psFolders = new List<PseudoFolder>();
+            tagDict = new SortedDictionary<string, List<PseudoObject>>();
         }
-        public void WriteToFile(bool overwrite)
+        public void WriteToFile(bool append)
         {
-            Xml.WriteToXmlFile(this.path, this, overwrite);
+            Xml.WriteToXmlFile(this.path, this, append);
         }
     }
     static public class Xml
@@ -110,6 +117,41 @@ namespace FileManager
             {
                 if (reader != null)
                     reader.Close();
+            }
+        }
+
+        public static void Serialize(TextWriter writer, IDictionary dictionary)
+        {
+            List<Entry> entries = new List<Entry>(dictionary.Count);
+            foreach (object key in dictionary.Keys)
+            {
+                entries.Add(new Entry(key, dictionary[key]));
+            }
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Entry>));
+            serializer.Serialize(writer, entries);
+        }
+        public static void Deserialize(TextReader reader, IDictionary dictionary)
+        {
+            dictionary.Clear();
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Entry>));
+            List<Entry> list = (List<Entry>)serializer.Deserialize(reader);
+            foreach (Entry entry in list)
+            {
+                dictionary[entry.Key] = entry.Value;
+            }
+        }
+        public class Entry
+        {
+            public object Key;
+            public object Value;
+            public Entry()
+            {
+            }
+
+            public Entry(object key, object value)
+            {
+                Key = key;
+                Value = value;
             }
         }
     }

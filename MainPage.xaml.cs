@@ -34,8 +34,8 @@ namespace FileManager
 
         public MainPage()
         {
-            StartApplication();
             InitializeComponent();
+            StartApplication();
         }
 
 
@@ -61,7 +61,7 @@ namespace FileManager
 
         private void nav_main_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            if(args.IsSettingsInvoked)
+            if (args.IsSettingsInvoked)
             {
                 return;
             }
@@ -70,17 +70,16 @@ namespace FileManager
             if (t != null)
                 this.frm_main.Navigate(t);
         }
-        public static void WriteToConsole(string s1, string s2 = null, string s3 = null)
+        private void btn_saveFML_Click(object sender, RoutedEventArgs e)
         {
-            Inst.txt_actionConsole1.Text = s1;
-            if(s2 != null)
-                Inst.txt_actionConsole2.Text = s2;
-            else
-                Inst.txt_actionConsole2.Text = "";
-            if (s3 != null)
-                Inst.txt_actionConsole3.Text = s3;
-            else
-                Inst.txt_actionConsole3.Text = "";
+            FML.curr.WriteToFile(false);
+            WriteToConsole("Saved FML", FML.curr.path, DateTime.Now.ToString());
+        }
+        public static void WriteToConsole(string s1 = null, string s2 = null, string s3 = null)
+        {
+            Inst.txt_actionConsole1.Text = s1 != null ? s1 : "";
+            Inst.txt_actionConsole2.Text = s2 != null ? s2 : "";
+            Inst.txt_actionConsole3.Text = s3 != null ? s3 : "";
         }
     }
 
