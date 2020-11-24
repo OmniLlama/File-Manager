@@ -21,9 +21,9 @@
         <Button x:ConnectionId='3' x:Name="btn_browse" Content="Browse" Margin="95,4,0,0" VerticalAlignment="Top"                          Width="64" Height="32"/>
         <TextBlock x:ConnectionId='4' x:Name="txt_currDir" HorizontalAlignment="Left" Margin="272,10,0,0" Text="Directory" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="686"/>
         <ListView x:ConnectionId='5' x:Name="lst_dirs" Margin="0,41,24,10"                                              Background="#FF151515" BorderBrush="White">
-            <ListView.ItemTemplate >
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel x:ConnectionId='16' x:Name="stkpnl_folder" Orientation="Horizontal"                                          >
                         <TextBlock Text="{Binding Path=Name}" />
                     </StackPanel>
                 </DataTemplate>

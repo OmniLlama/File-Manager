@@ -25,7 +25,6 @@ namespace FileManager
         }
         public PseudoFile(string n, string p) : this()
         {
-            tags = new List<string>();
             name = n;
             path = p;
         }

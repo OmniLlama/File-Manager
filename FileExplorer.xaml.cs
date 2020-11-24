@@ -25,6 +25,7 @@ namespace FileManager
         string[] idxTagLines;
         List<string> idxTags;
 
+        public StorageFolder SelStoFo => lst_dirs.SelectedItem as StorageFolder;
 
         public FileExplorer()
         {
@@ -75,12 +76,6 @@ namespace FileManager
             {
                 this.txt_currDir.Text = "Operation cancelled.";
             }
-        }
-        private void lst_dirs_doubleClick(object sender)
-        {
-            StorageFolder tempSF = sender as StorageFolder;
-            currPath = tempSF.Path;
-            RefreshAllDisplays(currPath);
         }
         private async void GetMetaFileFromFolder(StorageFolder folder)
         {
@@ -173,5 +168,24 @@ namespace FileManager
                 }
             }
         }
+
+
+
+        private void stkpnl_folder_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+        {
+            StorageFolder folder = SelStoFo;
+            if (folder != null)
+            {
+                // Application now has read/write access to all contents in the picked folder (including other sub-folder contents)
+                //Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", folder);
+                currPath = folder.Path;
+
+                this.lst_folderTags.Items.Clear();
+
+                GetMetaFileFromFolder(folder);
+                RefreshAllDisplays(currPath);
+            }
+        }
+
     }
 }
