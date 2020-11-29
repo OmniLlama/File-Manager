@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -14,8 +15,8 @@ namespace FileManager
 {
     public sealed partial class FileExplorer : Page
     {
-
-        public string currPath = "E:";
+        public string currPath = "C:";
+        public StorageFolder currStoFo;
         public StorageFile sfMetaFile;
 
         public string[] currTaggedFiles;
@@ -30,6 +31,11 @@ namespace FileManager
         public FileExplorer()
         {
             InitializeComponent();
+            StartFileExplorer();
+        }
+        private async void StartFileExplorer()
+        {
+            currStoFo = await StorageFolder.GetFolderFromPathAsync(currPath);
         }
         private void lst_files_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -39,15 +45,22 @@ namespace FileManager
         {
 
         }
+        private async void btn_dirUp_Click(object sender, RoutedEventArgs e)
+        {
+            StorageFolder sf = await currStoFo.GetParentAsync();
+            if (sf == null) return;
+            SetParentStorageFolder(sf);
 
+            this.lst_folderTags.Items.Clear();
+            GetMetaFileFromFolder(currStoFo);
+        }
         private void btn_browse_click(object sender, RoutedEventArgs e)
         {
             OpenBrowser();
         }
         private void btn_refresh_click(object sender, RoutedEventArgs e)
         {
-            RefreshDirDisplay(currPath);
-            RefreshFileDisplay(currPath);
+            RefreshAllDisplays(currStoFo);
         }
 
         private void btn_addFileTag_Click(object sender, RoutedEventArgs e)
@@ -57,20 +70,17 @@ namespace FileManager
 
         private async void OpenBrowser()
         {
-            var folderPicker = new Windows.Storage.Pickers.FolderPicker();
-            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
-            folderPicker.FileTypeFilter.Add("*");
-            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
-            if (folder != null)
+            FolderPicker foPicker = new FolderPicker()
             {
-                // Application now has read/write access to all contents in the picked folder (including other sub-folder contents)
-                Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", folder);
-                currPath = folder.Path;
-
+                SuggestedStartLocation = PickerLocationId.Desktop
+            };
+            foPicker.FileTypeFilter.Add("*");
+            StorageFolder sf = await foPicker.PickSingleFolderAsync();
+            if (sf != null)
+            {
+                SetParentStorageFolder(sf);
                 this.lst_folderTags.Items.Clear();
-
-                GetMetaFileFromFolder(folder);
-                RefreshAllDisplays(currPath);
+                GetMetaFileFromFolder(sf);
             }
             else
             {
@@ -98,53 +108,31 @@ namespace FileManager
                 }
             }
         }
-        private async void ReadMetaFile()
+
+
+        private void SetParentStorageFolder(StorageFolder sf)
         {
+            currStoFo = sf;
+            currPath = sf.Path;
+            this.txt_currDir.Text = sf.Path;
+            // Application now has read/write access to all contents in the picked folder (including other sub-folder contents)
+            Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", sf);
+            RefreshAllDisplays(currStoFo);
 
         }
-        private void ParseMetaFile(StorageFolder folder)
+        private void RefreshAllDisplays(StorageFolder sf)
         {
-            idxTags = new List<string>();
-            tagString = Encoding.Default.GetString(metaBuffer);
-            var temp_sects = tagString.Replace("\r", "").Replace("\n", "").Split("@");
-            idxTagLines = temp_sects.First().Split("|").Skip(1).ToArray();
-            var temp_taggedFiles = temp_sects.Skip(1).ToArray();
-            currTaggedFiles = new string[temp_taggedFiles.Length];
-
-
-            List<string> temp_tags = new List<string>();
-            foreach (string tag in idxTagLines)
-            {
-                if (tag.Length > 0)
-                {
-                    string temp_tag = tag.Trim('|');
-                    idxTags.Add(temp_tag);
-                    temp_tags.Add(temp_tag);
-                    this.lst_folderTags.Items.Add(temp_tag);
-                }
-            }
-            for (int i = 0; i < temp_taggedFiles.Length; i++)
-            {
-
-                currTaggedFiles[i] = temp_taggedFiles[i].Split("#").First();
-            }
-        }
-        private void RefreshAllDisplays(string path)
-        {
-            this.txt_currDir.Text = path;
-            RefreshDirDisplay(path);
-            RefreshFileDisplay(path);
+            GetFoldersFromStorageFolder(sf);
+            GetFilesFromStorageFolder(sf);
         }
 
-        private async void RefreshDirDisplay(string path)
+        private async void GetFoldersFromStorageFolder(StorageFolder sf)
         {
-            StorageFolder sf = await StorageFolder.GetFolderFromPathAsync(path);
             var sfs = await sf.GetFoldersAsync();
             this.lst_dirs.ItemsSource = sfs;
         }
-        private async void RefreshFileDisplay(string path)
+        private async void GetFilesFromStorageFolder(StorageFolder sf)
         {
-            StorageFolder sf = await StorageFolder.GetFolderFromPathAsync(path);
             var sfs = await sf.GetFilesAsync();
             this.lst_files.ItemsSource = sfs;
         }
@@ -173,19 +161,43 @@ namespace FileManager
 
         private void stkpnl_folder_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
         {
-            StorageFolder folder = SelStoFo;
-            if (folder != null)
+            if (SelStoFo != null)
             {
-                // Application now has read/write access to all contents in the picked folder (including other sub-folder contents)
-                //Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", folder);
-                currPath = folder.Path;
+                SetParentStorageFolder(SelStoFo);
 
                 this.lst_folderTags.Items.Clear();
-
-                GetMetaFileFromFolder(folder);
-                RefreshAllDisplays(currPath);
+                GetMetaFileFromFolder(currStoFo);
             }
         }
 
+        
+        private void ParseMetaFile(StorageFolder folder)
+        {
+            idxTags = new List<string>();
+            tagString = Encoding.Default.GetString(metaBuffer);
+            var temp_sects = tagString.Replace("\r", "").Replace("\n", "").Split("@");
+            idxTagLines = temp_sects.First().Split("|").Skip(1).ToArray();
+            var temp_taggedFiles = temp_sects.Skip(1).ToArray();
+            currTaggedFiles = new string[temp_taggedFiles.Length];
+
+
+            List<string> temp_tags = new List<string>();
+            foreach (string tag in idxTagLines)
+            {
+                if (tag.Length > 0)
+                {
+                    string temp_tag = tag.Trim('|');
+                    idxTags.Add(temp_tag);
+                    temp_tags.Add(temp_tag);
+                    this.lst_folderTags.Items.Add(temp_tag);
+                }
+            }
+            for (int i = 0; i < temp_taggedFiles.Length; i++)
+            {
+
+                currTaggedFiles[i] = temp_taggedFiles[i].Split("#").First();
+            }
+        }
     }
+
 }

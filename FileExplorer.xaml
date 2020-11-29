@@ -7,7 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.Resources>
+        <local:StringFormatConverter x:Key="StringFormatConverter"/>
+    </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="7*"/>
@@ -17,10 +19,11 @@
             <RowDefinition Height="5*"/>
             <RowDefinition Height="7*"/>
         </Grid.RowDefinitions>
-        <Button x:Name="btn_refresh" Content="Refresh" Margin="1,4,0,0" VerticalAlignment="Top" Click="btn_refresh_click" Height="32" Width="66"/>
-        <Button x:Name="btn_browse" Content="Browse" Margin="95,4,0,0" VerticalAlignment="Top" Click="btn_browse_click" Width="64" Height="32"/>
-        <TextBlock x:Name="txt_currDir" HorizontalAlignment="Left" Margin="272,10,0,0" Text="Directory" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="686"/>
-        <ListView x:Name="lst_dirs" Margin="0,41,24,10" SelectionChanged="lst_dirs_SelectionChanged" Background="#FF151515" BorderBrush="White">
+        <Button x:Name="btn_refresh" Content="Refresh" Margin="43,4,0,0" VerticalAlignment="Top" Click="btn_refresh_click" Height="32" Width="66"/>
+        <Button x:Name="btn_browse" Content="Browse" Margin="114,4,0,0" VerticalAlignment="Top" Click="btn_browse_click" Width="64" Height="32"/>
+        <Button x:Name="btn_dirUp" Content="↑" Margin="10,4,0,0" VerticalAlignment="Top" Click="btn_dirUp_Click" Width="28" Height="32" Background="#66FFFFFF"/>
+        <TextBlock x:Name="txt_currDir" Margin="183,10,28,0" Text="Directory" TextWrapping="NoWrap" VerticalAlignment="Top" Height="32"/>
+        <ListView x:Name="lst_dirs" Margin="10,41,24,10" SelectionChanged="lst_dirs_SelectionChanged" Background="#FF151515" BorderBrush="White">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel x:Name="stkpnl_folder" Orientation="Horizontal" DoubleTapped="stkpnl_folder_DoubleTapped">
@@ -29,28 +32,33 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <ListView x:Name="lst_files" Margin="0,10,24,0" SelectionChanged="lst_files_SelectionChanged" BorderBrush="#FF999999" Background="#FF1D1D1D" Grid.Row="1">
+        <ListView x:Name="lst_files" Margin="10,10,24,0" SelectionChanged="lst_files_SelectionChanged" BorderBrush="#FF999999" Background="#FF1D1D1D" Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{Binding Path=Name}" />
-                            <TextBlock Text="{Binding Path=DisplayType}" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Path=Name}" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Path=DisplayType}" />
                         </StackPanel>
-                        <TextBlock Text="{Binding Path=DateCreated}"/>
+                        <TextBlock Text="{Binding 
+                            Path=DateCreated, 
+                            Converter={StaticResource StringFormatConverter}, 
+                            ConverterParameter='{}{0:HH:mm MM.dd.yy}'}" HorizontalAlignment="Right"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
-        <TextBlock x:Name="txt_tags" HorizontalAlignment="Left" Margin="32,45,0,0" Text="Folder Tags" TextWrapping="Wrap" VerticalAlignment="Top" Width="211" Height="19" Grid.Column="1"/>
+        <TextBlock x:Name="txt_folderTags" HorizontalAlignment="Left" Margin="32,45,0,0" Text="Folder Tags" TextWrapping="Wrap" VerticalAlignment="Top" Width="211" Height="19" Grid.Column="1"/>
         <ListView x:Name="lst_folderTags" Margin="27,69,10,54" BorderBrush="#FFC9C2C2" Foreground="#FFFFC0C0" Background="#FF404040" Grid.Column="1" />
-        <TextBlock x:Name="txt_fileTags" HorizontalAlignment="Left" Margin="34,20,0,0" Text="File Tags" TextWrapping="Wrap" VerticalAlignment="Top" Width="188" Grid.Row="1" Height="19" Grid.Column="1"/>
+        <TextBox x:Name="txtbox_folderTagInput" HorizontalAlignment="Left" Margin="123,32,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Background="#66707DFF" Width="413" PlaceholderText="Add Tag To Folder" Height="32" Grid.Column="1"/>
+        <Button x:Name="btn_addFolderTag" Content="Add" Margin="541,32,0,0" VerticalAlignment="Top" Height="32" Width="58" Grid.Column="1"/>
+        
+        <TextBlock x:Name="txt_fileTags" HorizontalAlignment="Left" Margin="34,20,0,0" Text="File Tags" TextWrapping="Wrap" VerticalAlignment="Top" Width="54" Grid.Row="1" Height="19" Grid.Column="1"/>
         <ListView x:Name="lst_fileTags" Margin="29,44,10,47" BorderBrush="#FFC9C2C2" Foreground="#FFFFC0C0" Background="#FF404040" Grid.Row="1" Grid.Column="1"/>
         <TextBox x:Name="txtbox_fileTagInput" HorizontalAlignment="Left" Margin="32,588,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="654" Background="#66699FFF" PlaceholderText="Add Tag To File" Grid.Row="1" Height="32" Grid.Column="1" />
         <Button x:Name="btn_addFileTag" Content="Add" Margin="692,588,0,0" VerticalAlignment="Top" Click="btn_addFileTag_Click" Grid.Row="1" Height="32" Width="63" Grid.Column="1"/>
-        <TextBox x:Name="txtbox_folderTagInput" HorizontalAlignment="Left" Margin="123,32,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Background="#66707DFF" Width="413" PlaceholderText="Add Tag To Folder" Height="32" Grid.Column="1"/>
-        <Button x:Name="btn_addFolderTag" Content="Add" Margin="541,32,0,0" VerticalAlignment="Top" Height="32" Width="58" Grid.Column="1"/>
+
 
     </Grid>
 </Page>
