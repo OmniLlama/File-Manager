@@ -15,17 +15,11 @@ namespace FileManager
 {
     public sealed partial class FileExplorer : Page
     {
+        public static FileExplorer Inst;
         public string currPath = "C:";
         public StorageFolder currStoFo;
-        public StorageFile sfMetaFile;
 
-        public string[] currTaggedFiles;
-
-        byte[] metaBuffer;
-        string tagString;
-        string[] idxTagLines;
-        List<string> idxTags;
-
+        public ListView FileList => lst_files;
         public StorageFolder SelStoFo => lst_dirs.SelectedItem as StorageFolder;
 
         public FileExplorer()
@@ -35,11 +29,11 @@ namespace FileManager
         }
         private async void StartFileExplorer()
         {
+            Inst = this;
             currStoFo = await StorageFolder.GetFolderFromPathAsync(currPath);
         }
         private void lst_files_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ChangeFileSelection();
         }
         private void lst_dirs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -50,9 +44,6 @@ namespace FileManager
             StorageFolder sf = await currStoFo.GetParentAsync();
             if (sf == null) return;
             SetParentStorageFolder(sf);
-
-            this.lst_folderTags.Items.Clear();
-            GetMetaFileFromFolder(currStoFo);
         }
         private void btn_browse_click(object sender, RoutedEventArgs e)
         {
@@ -61,11 +52,6 @@ namespace FileManager
         private void btn_refresh_click(object sender, RoutedEventArgs e)
         {
             RefreshAllDisplays(currStoFo);
-        }
-
-        private void btn_addFileTag_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private async void OpenBrowser()
@@ -79,35 +65,13 @@ namespace FileManager
             if (sf != null)
             {
                 SetParentStorageFolder(sf);
-                this.lst_folderTags.Items.Clear();
-                GetMetaFileFromFolder(sf);
             }
             else
             {
                 this.txt_currDir.Text = "Operation cancelled.";
             }
         }
-        private async void GetMetaFileFromFolder(StorageFolder folder)
-        {
-            if (folder.GetFileAsync("_meta.fm") != null)
-            {
-                try
-                {
-                    sfMetaFile = await folder.GetFileAsync("_meta.fm");
-                    IRandomAccessStream iras = await sfMetaFile.OpenAsync(FileAccessMode.ReadWrite);
-                    Stream stream = iras.AsStreamForRead();
-                    metaBuffer = new byte[stream.Length];
-                    stream.Read(metaBuffer, 0, (int)stream.Length);
-                    stream.Close();
-                    ParseMetaFile(folder);
 
-                }
-                catch
-                {
-                    sfMetaFile = null;
-                }
-            }
-        }
 
 
         private void SetParentStorageFolder(StorageFolder sf)
@@ -118,8 +82,8 @@ namespace FileManager
             // Application now has read/write access to all contents in the picked folder (including other sub-folder contents)
             Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", sf);
             RefreshAllDisplays(currStoFo);
-
         }
+
         private void RefreshAllDisplays(StorageFolder sf)
         {
             GetFoldersFromStorageFolder(sf);
@@ -136,68 +100,17 @@ namespace FileManager
             var sfs = await sf.GetFilesAsync();
             this.lst_files.ItemsSource = sfs;
         }
-        private void ChangeFileSelection()
-        {
-            this.lst_fileTags.Items.Clear();
-            if (this.lst_files.SelectedItem == null) return;
-
-            ListViewItem lvi = lst_files.SelectedItem as ListViewItem;
-            if (currTaggedFiles == null) return;
-            for (int i = 0; i < currTaggedFiles.Length; i++)
-            {
-                if (currTaggedFiles[i].Equals($"{lvi.Content}"))
-                {
-                    string[] tagArr = currTaggedFiles[i].Split("#").Skip(1).ToArray();
-                    foreach (string tag in tagArr)
-                    {
-                        if (tag.Length > 0)
-                            this.lst_fileTags.Items.Add(tag.Replace("\n", ""));
-                    }
-                }
-            }
-        }
-
-
 
         private void stkpnl_folder_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
         {
             if (SelStoFo != null)
             {
                 SetParentStorageFolder(SelStoFo);
-
-                this.lst_folderTags.Items.Clear();
-                GetMetaFileFromFolder(currStoFo);
             }
         }
 
         
-        private void ParseMetaFile(StorageFolder folder)
-        {
-            idxTags = new List<string>();
-            tagString = Encoding.Default.GetString(metaBuffer);
-            var temp_sects = tagString.Replace("\r", "").Replace("\n", "").Split("@");
-            idxTagLines = temp_sects.First().Split("|").Skip(1).ToArray();
-            var temp_taggedFiles = temp_sects.Skip(1).ToArray();
-            currTaggedFiles = new string[temp_taggedFiles.Length];
-
-
-            List<string> temp_tags = new List<string>();
-            foreach (string tag in idxTagLines)
-            {
-                if (tag.Length > 0)
-                {
-                    string temp_tag = tag.Trim('|');
-                    idxTags.Add(temp_tag);
-                    temp_tags.Add(temp_tag);
-                    this.lst_folderTags.Items.Add(temp_tag);
-                }
-            }
-            for (int i = 0; i < temp_taggedFiles.Length; i++)
-            {
-
-                currTaggedFiles[i] = temp_taggedFiles[i].Split("#").First();
-            }
-        }
+        
     }
 
 }

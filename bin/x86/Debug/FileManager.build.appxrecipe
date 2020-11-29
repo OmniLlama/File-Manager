@@ -79,6 +79,9 @@
     <AppxPackagedFile Include="E:\_LocalProjects\FileManager\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="E:\_LocalProjects\FileManager\bin\x86\Debug\TagDisplay.xbf">
+      <PackagePath>TagDisplay.xbf</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.18362.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
     </AppxPackagedFile>

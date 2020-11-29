@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Diagnostics;
 using Windows.System;
+using Windows.Storage.Pickers;
 
 namespace FileManager
 {
@@ -23,15 +24,20 @@ namespace FileManager
         public FmlEditor()
         {
             InitializeComponent();
+            StartFmlEditor();
             RefreshLists();
         }
 
+        private void StartFmlEditor()
+        {
+            Inst = this;
+        }
         private async void btn_addPseudoFile_Click(object sender, RoutedEventArgs e)
         {
             if (selPSFolder == null) return;
-            var filePicker = new Windows.Storage.Pickers.FileOpenPicker()
+            var filePicker = new FileOpenPicker()
             {
-                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+                SuggestedStartLocation = PickerLocationId.Desktop
             };
             filePicker.FileTypeFilter.Add("*");
 

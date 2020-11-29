@@ -11,6 +11,25 @@ namespace FileManager
     {
 
     }
+    public sealed class StorageObjInfoConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value == null)
+                return null;
+
+            //if (parameter == null)
+            //    return value;
+
+            return value.ToString() + "heheheheee";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter,
+            string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
     public sealed class StringFormatConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
