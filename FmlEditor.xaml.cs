@@ -31,6 +31,7 @@ namespace FileManager
         private void StartFmlEditor()
         {
             Inst = this;
+            NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
         }
         private async void btn_addPseudoFile_Click(object sender, RoutedEventArgs e)
         {
@@ -98,14 +99,10 @@ namespace FileManager
         }
 
 
-        private async void btn_openPseudoFile_Click(object sender, RoutedEventArgs e)
+        private void btn_openPseudoFile_Click(object sender, RoutedEventArgs e)
         {
             if (selPSFile == null) return;
-            StorageFile sf = await StorageFile.GetFileFromPathAsync(selPSFile.path);
-            if (await Launcher.LaunchFileAsync(sf))
-                MainPage.WriteToConsole("Launched PseudoFile", selPSFile.name, DateTime.Now.ToString());
-            else
-                MainPage.WriteToConsole("FAILED to launch PseudoFile", selPSFile.name, DateTime.Now.ToString());
+            Func.LaunchFileFromPath(selPSFile.path, selPSFile.name);
         }
 
         private void btn_addFolderTag_Click(object sender, RoutedEventArgs e)

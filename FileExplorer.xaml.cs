@@ -7,38 +7,38 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
+using Windows.System;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace FileManager
 {
     public sealed partial class FileExplorer : Page
     {
         public static FileExplorer Inst;
+        public string CurrPath { get; set; }
         public string currPath = "C:";
         public StorageFolder currStoFo;
 
         public ListView FileList => lst_files;
-        public StorageFolder SelStoFo => lst_dirs.SelectedItem as StorageFolder;
+        public StorageFolder SelStoFo => lst_folders.SelectedItem as StorageFolder;
+        public StorageFile SelStoFi => lst_files.SelectedItem as StorageFile;
 
         public FileExplorer()
         {
             InitializeComponent();
             StartFileExplorer();
         }
-        private async void StartFileExplorer()
+        private void StartFileExplorer()
         {
             Inst = this;
-            currStoFo = await StorageFolder.GetFolderFromPathAsync(currPath);
+            NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
+            OpenBrowser();
         }
-        private void lst_files_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-        }
-        private void lst_dirs_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
 
-        }
+
         private async void btn_dirUp_Click(object sender, RoutedEventArgs e)
         {
             StorageFolder sf = await currStoFo.GetParentAsync();
@@ -68,7 +68,7 @@ namespace FileManager
             }
             else
             {
-                this.txt_currDir.Text = "Operation cancelled.";
+                //this.txt_currDir.Text = "Operation cancelled.";
             }
         }
 
@@ -78,7 +78,8 @@ namespace FileManager
         {
             currStoFo = sf;
             currPath = sf.Path;
-            this.txt_currDir.Text = sf.Path;
+            CurrPath = sf.Path;
+            //this.txt_currDir.Text = sf.Path;
             // Application now has read/write access to all contents in the picked folder (including other sub-folder contents)
             Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", sf);
             RefreshAllDisplays(currStoFo);
@@ -93,7 +94,7 @@ namespace FileManager
         private async void GetFoldersFromStorageFolder(StorageFolder sf)
         {
             var sfs = await sf.GetFoldersAsync();
-            this.lst_dirs.ItemsSource = sfs;
+            this.lst_folders.ItemsSource = sfs;
         }
         private async void GetFilesFromStorageFolder(StorageFolder sf)
         {
@@ -101,16 +102,56 @@ namespace FileManager
             this.lst_files.ItemsSource = sfs;
         }
 
-        private void stkpnl_folder_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+        private void lst_folders_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
+        private void lst_folders_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             if (SelStoFo != null)
             {
                 SetParentStorageFolder(SelStoFo);
             }
         }
+        private void lst_folders_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            var frmElmt = e.OriginalSource as FrameworkElement;
+            this.lst_folders.SelectedItem = frmElmt.DataContext;
+        }
+        private void cntxt_folders_open_click(object sender, RoutedEventArgs e)
+        {
+            if (SelStoFo != null)
+            {
+                SetParentStorageFolder(SelStoFo);
+            }
+        }
+        private void lst_files_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
+        private void lst_files_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            Func.LaunchFileFromPath(SelStoFi.Path, SelStoFi.Name);
+        }
+        private void lst_files_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            var frmElmt = e.OriginalSource as FrameworkElement;
+            this.lst_files.SelectedItem = frmElmt.DataContext;
+        }
 
-        
-        
+        private void cntxt_files_open_click(object sender, RoutedEventArgs e)
+        {
+            Func.LaunchFileFromPath(SelStoFi.Path, SelStoFi.Name);
+        }
+
+        private void cntxt_files_addToPSFo_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+
+        }
+
+        public static string StorageFolderChildCount(StorageFolder sf)
+        {
+            var v = GetChildCount(sf);
+            return v.Result;
+        }
+        public static async Task<string> GetChildCount(StorageFolder sf)
+        {
+            var v = await sf.GetItemsAsync();
+            return v.Count.ToString();
+        }
     }
-
 }

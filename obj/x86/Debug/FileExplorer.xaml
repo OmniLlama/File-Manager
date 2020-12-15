@@ -1,0 +1,75 @@
+﻿<Page x:ConnectionId='1'
+    x:Class="FileManager.FileExplorer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FileManager"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:storage="using:Windows.Storage"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <local:StringFormatConverter x:Key="StringFormatConverter"/>
+        <local:StorageObjInfoConverter x:Key="StorageObjInfoConverter"/>
+    </Page.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="7*"/>
+        </Grid.RowDefinitions>
+        <Button x:ConnectionId='2' x:Name="btn_refresh" Content="Refresh" Margin="43,4,0,0" VerticalAlignment="Top"                           Height="32" Width="66"/>
+        <Button x:ConnectionId='3' x:Name="btn_browse" Content="Browse" Margin="114,4,0,0" VerticalAlignment="Top"                          Width="64" Height="32"/>
+        <Button x:ConnectionId='4' x:Name="btn_dirUp" Content="↑" Margin="10,4,0,0" VerticalAlignment="Top"                         Width="28" Height="32" Background="#66FFFFFF"/>
+        <TextBlock x:ConnectionId='5' x:Name="txt_currDir"                                       Margin="183,10,28,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="32"/>
+        <ListView x:ConnectionId='6' x:Name="lst_folders" Margin="10,41,24,10"  Background="#FF151515" BorderBrush="White"
+                                                                                                                                               >
+            <ListView.ItemTemplate>
+                <DataTemplate x:Name="sf"                                   >
+                    <StackPanel x:ConnectionId='17' x:Name="stkpnl_folder" Orientation="Horizontal"                                        >
+                        <TextBlock x:ConnectionId='18'                      />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem x:ConnectionId='19' Text="Open" Background="#FF636363"                                 />
+                </MenuFlyout>
+            </ListView.ContextFlyout>
+        </ListView>
+
+        <ListView x:ConnectionId='7' x:Name="lst_files" Margin="10,10,24,0" BorderBrush="#FF999999" Background="#FF1D1D1D" Grid.Row="1" 
+                                                                                                                                         >
+            <ListView.ItemTemplate>
+                <DataTemplate                                 >
+                    <StackPanel x:ConnectionId='9' Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock x:ConnectionId='12'                      FontWeight="Bold"/>
+                            <TextBlock x:ConnectionId='13'                             />
+                        </StackPanel>
+                        <TextBlock x:ConnectionId='10'                            
+                                                                              
+                                                                     
+                              />
+                        <TextBlock x:ConnectionId='11'                           
+                                                                              
+                              />
+                        
+                        
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem x:ConnectionId='14' Text="Open" Background="#FF636363"                               />
+                    <MenuFlyoutItem x:ConnectionId='15' Text="Add to PseudoFolder" Background="#FF212721"                                      />
+                </MenuFlyout>
+            </ListView.ContextFlyout>
+        </ListView>
+
+    </Grid>
+
+</Page>
+

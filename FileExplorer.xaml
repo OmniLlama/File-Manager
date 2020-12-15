@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:FileManager"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:storage="using:Windows.Storage"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
@@ -23,40 +23,52 @@
         <Button x:Name="btn_refresh" Content="Refresh" Margin="43,4,0,0" VerticalAlignment="Top" Click="btn_refresh_click" Height="32" Width="66"/>
         <Button x:Name="btn_browse" Content="Browse" Margin="114,4,0,0" VerticalAlignment="Top" Click="btn_browse_click" Width="64" Height="32"/>
         <Button x:Name="btn_dirUp" Content="↑" Margin="10,4,0,0" VerticalAlignment="Top" Click="btn_dirUp_Click" Width="28" Height="32" Background="#66FFFFFF"/>
-        <TextBlock x:Name="txt_currDir" Margin="183,10,28,0" Text="Directory" TextWrapping="NoWrap" VerticalAlignment="Top" Height="32"/>
-        <ListView x:Name="lst_dirs" Margin="10,41,24,10" SelectionChanged="lst_dirs_SelectionChanged" Background="#FF151515" BorderBrush="White">
+        <TextBlock x:Name="txt_currDir" Text="{x:Bind CurrPath, Mode=OneWay}" Margin="183,10,28,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="32"/>
+        <ListView x:Name="lst_folders" Margin="10,41,24,10"  Background="#FF151515" BorderBrush="White"
+                  SelectionChanged="lst_folders_SelectionChanged" RightTapped="lst_folders_RightTapped" DoubleTapped="lst_folders_DoubleTapped">
             <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel x:Name="stkpnl_folder" Orientation="Horizontal" DoubleTapped="stkpnl_folder_DoubleTapped">
-                        <TextBlock Text="{Binding Path=Name}" />
+                <DataTemplate x:Name="sf" x:DataType="storage:StorageFolder">
+                    <StackPanel x:Name="stkpnl_folder" Orientation="Horizontal" DoubleTapped="lst_folders_DoubleTapped">
+                        <TextBlock Text="{x:Bind Name}" />
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem Text="Open" Background="#FF636363" Click="cntxt_folders_open_click"/>
+                </MenuFlyout>
+            </ListView.ContextFlyout>
         </ListView>
-        
-        <ListView x:Name="lst_files" Margin="10,10,24,0" SelectionChanged="lst_files_SelectionChanged" BorderBrush="#FF999999" Background="#FF1D1D1D" Grid.Row="1">
+
+        <ListView x:Name="lst_files" Margin="10,10,24,0" BorderBrush="#FF999999" Background="#FF1D1D1D" Grid.Row="1" 
+                  SelectionChanged="lst_files_SelectionChanged" RightTapped="lst_files_RightTapped" DoubleTapped="lst_files_DoubleTapped">
             <ListView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="storage:StorageFile">
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{Binding Path=Name}" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding Path=DisplayType}" />
+                            <TextBlock Text="{x:Bind Name}" FontWeight="Bold"/>
+                            <TextBlock Text="{x:Bind DisplayType}" />
                         </StackPanel>
-                        <TextBlock Text="{Binding 
-                            Path=DateCreated, 
+                        <TextBlock Text="{x:Bind DateCreated, 
                             Converter={StaticResource StringFormatConverter}, 
                             ConverterParameter='{}{0:HH:mm MM.dd.yy}'
                             }"/>
-                        <TextBlock Text="{Binding Path=Properties, 
+                        <TextBlock Text="{x:Bind Properties, 
                             Converter={StaticResource StorageObjInfoConverter}
                             }"/>
+                        
+                        
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem Text="Open" Background="#FF636363" Click="cntxt_files_open_click"/>
+                    <MenuFlyoutItem Text="Add to PseudoFolder" Background="#FF212721" Tapped="cntxt_files_addToPSFo_Tapped"/>
+                </MenuFlyout>
+            </ListView.ContextFlyout>
         </ListView>
 
-
-
-
     </Grid>
+
 </Page>

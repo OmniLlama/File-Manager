@@ -3,25 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.FileProperties;
+using Windows.System;
 using Windows.UI.Xaml.Data;
 
 namespace FileManager
 {
     class Func
     {
-
+        public static async void LaunchFileFromPath(string path, string name)
+        {
+            StorageFile sf = await StorageFile.GetFileFromPathAsync(path);
+            if (await Launcher.LaunchFileAsync(sf))
+                MainPage.WriteToConsole("Launched File", name, DateTime.Now.ToString());
+            else
+                MainPage.WriteToConsole("FAILED to launch File", name, DateTime.Now.ToString());
+        }
     }
     public sealed class StorageObjInfoConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
+            var v = value as StorageItemContentProperties;
             if (value == null)
                 return null;
 
             //if (parameter == null)
             //    return value;
 
-            return value.ToString() + "heheheheee";
+            return value.ToString() + " |||heheheheee";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter,

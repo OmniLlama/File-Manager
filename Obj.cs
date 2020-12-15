@@ -14,6 +14,7 @@ namespace FileManager
     {
         public string name;
         public PseudoObject() { }
+        public string Name { get => name; set { name = value; } }
     }
     public class PseudoFile : PseudoObject
     {
@@ -43,7 +44,6 @@ namespace FileManager
             psFiles = new List<PseudoFile>();
             tags = new List<string>();
         }
-        public string Name { get => name; set { name = value; } }
         public int TagCount { get => tags.Count; }
         public int FileCount { get => psFiles.Count; }
         public override string ToString()

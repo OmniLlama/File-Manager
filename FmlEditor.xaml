@@ -24,13 +24,13 @@
             <Button x:Name="btn_updatePseudoFolderName" Content="Update" Margin="657,5,0,0" VerticalAlignment="Top" Click="btn_updatePseudoFolderName_Click" Height="34" Width="82"/>
             <ListView x:Name="lst_pseudoFolders" Margin="10,56,10,13" BorderBrush="#FFFF8282" Background="#FF322727" SelectionChanged="lst_pseudoFolders_SelectionChanged" CanDragItems="True" CanReorderItems="True">
                 <ListView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="local:PseudoFolder">
                         <StackPanel Orientation="Vertical" >
-                            <TextBlock Text="{Binding Path=Name}" />
+                            <TextBlock Text="{x:Bind Name}" />
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Path=FileCount}" Foreground="#FFA6A6A6" />
+                                <TextBlock Text="{x:Bind FileCount}" Foreground="#FFA6A6A6" />
                                 <TextBlock Text=" Files | " />
-                                <TextBlock Text="{Binding Path=TagCount}" Foreground="#FFA6A6A6"/>
+                                <TextBlock Text="{x:Bind TagCount}" Foreground="#FFA6A6A6"/>
                                 <TextBlock Text=" Tags" />
                             </StackPanel>
                         </StackPanel>
@@ -41,7 +41,20 @@
             <Button x:Name="btn_addPseudoFile" Content="+" Margin="10,5,0,0" VerticalAlignment="Top" Click="btn_addPseudoFile_Click" Height="35" Width="37" Grid.Column="1"/>
             <Button x:Name="btn_removePseudoFile" Content="-" Margin="52,5,0,0" VerticalAlignment="Top" Click="btn_removePseudoFile_Click" Height="35" Width="32" Grid.Column="1"/>
             <Button x:Name="btn_openPseudoFile" Content="Open File" Margin="0,5,10,0" VerticalAlignment="Top" Click="btn_openPseudoFile_Click" Height="35" HorizontalAlignment="Right" Width="98" Grid.Column="1"/>
-            <ListView x:Name="lst_pseudoFolderFiles" Margin="10,56,1,13" Background="#FF212721" SelectionChanged="lst_pseudoFolderFiles_SelectionChanged" SelectionMode="Multiple" Grid.Column="1"/>
+            <ListView x:Name="lst_pseudoFolderFiles" Margin="10,56,1,13" Background="#FF212721" Grid.Column="1"
+                      SelectionChanged="lst_pseudoFolderFiles_SelectionChanged" SelectionMode="Multiple" >
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="local:PseudoFile">
+                        <StackPanel Orientation="Vertical" >
+                            <TextBlock Text="{x:Bind Name}" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{x:Bind tags.Count}" Foreground="#FFA6A6A6"/>
+                                <TextBlock Text=" Tags" />
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
             <TextBox x:Name="txtbox_folderTag" HorizontalAlignment="Left" Margin="10,10,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="209" PlaceholderText="Folder Tags" Height="35" Grid.Row="1"/>
             <Button x:Name="btn_addFolderTag" Content="+" Margin="224,10,0,0" VerticalAlignment="Top" Click="btn_addFolderTag_Click" Height="35" Width="37" Grid.Row="1"/>
