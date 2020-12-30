@@ -9,3 +9,6 @@
 			
 			
 <TextBlock Text="{x:Bind local:FileExplorer.StorageFolderChildCount((storage:StorageFolder))}" />
+
+
+                        <MenuFlyoutItem Text="{x:Bind local:FML.curr.psFolders}" Tapped="cntxt_files_addToPSFo_Tapped"/>

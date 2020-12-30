@@ -20,6 +20,14 @@ namespace FileManager
             else
                 MainPage.WriteToConsole("FAILED to launch File", name, DateTime.Now.ToString());
         }
+        public static async void LaunchFile(PseudoFile ps)
+        {
+            StorageFile sf = await StorageFile.GetFileFromPathAsync(ps.path);
+            if (await Launcher.LaunchFileAsync(sf))
+                MainPage.WriteToConsole("Launched File", ps.name, DateTime.Now.ToString());
+            else
+                MainPage.WriteToConsole("FAILED to launch File", ps.name, DateTime.Now.ToString());
+        }
     }
     public sealed class StorageObjInfoConverter : IValueConverter
     {
@@ -32,7 +40,7 @@ namespace FileManager
             //if (parameter == null)
             //    return value;
 
-            return value.ToString() + " |||heheheheee";
+            return value.ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter,

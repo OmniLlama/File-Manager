@@ -12,6 +12,7 @@ using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 
 namespace FileManager
 {
@@ -36,9 +37,14 @@ namespace FileManager
             Inst = this;
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
             OpenBrowser();
+            //PopulatePseudoFolderSubMenu();
         }
 
-
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            PopulatePseudoFolderSubMenu();
+        }
         private async void btn_dirUp_Click(object sender, RoutedEventArgs e)
         {
             StorageFolder sf = await currStoFo.GetParentAsync();
@@ -79,7 +85,6 @@ namespace FileManager
             currStoFo = sf;
             currPath = sf.Path;
             CurrPath = sf.Path;
-            //this.txt_currDir.Text = sf.Path;
             // Application now has read/write access to all contents in the picked folder (including other sub-folder contents)
             Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", sf);
             RefreshAllDisplays(currStoFo);
@@ -152,6 +157,29 @@ namespace FileManager
         {
             var v = await sf.GetItemsAsync();
             return v.Count.ToString();
+        }
+
+        private void PopulatePseudoFolderSubMenu()
+        {
+            cntxt_files_psFolders.Items.Clear();
+            for (int i = 0; i < FML.curr.psFolders.Count; i++)
+            {
+                PseudoFolder pf = FML.curr.psFolders[i];
+                MenuFlyoutItem mfi = new MenuFlyoutItem();
+                mfi.Text = pf.name;
+                mfi.Tag = i;
+                mfi.Click += cntxt_files_psFolders_Click;
+                cntxt_files_psFolders.Items.Add(mfi);
+            }
+        }
+        private void cntxt_files_psFolders_Click(object sender, RoutedEventArgs e)
+        {
+            MenuFlyoutItem mfi = sender as MenuFlyoutItem;
+            var item = FML.curr.psFolders[Int32.Parse(mfi.Tag.ToString())];
+            string s = "";
+            item.psFiles.Add(new PseudoFile(SelStoFi.Name, SelStoFi.Path));
+            s += $" {SelStoFi.Name}";
+            MainPage.WriteToConsole("Added Pseudofile(s) to", item.name, s);
         }
     }
 }

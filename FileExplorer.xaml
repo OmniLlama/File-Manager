@@ -10,6 +10,7 @@
     <Page.Resources>
         <local:StringFormatConverter x:Key="StringFormatConverter"/>
         <local:StorageObjInfoConverter x:Key="StorageObjInfoConverter"/>
+        <local:FML x:Key="FML"/>
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -53,18 +54,14 @@
                             Converter={StaticResource StringFormatConverter}, 
                             ConverterParameter='{}{0:HH:mm MM.dd.yy}'
                             }"/>
-                        <TextBlock Text="{x:Bind Properties, 
-                            Converter={StaticResource StorageObjInfoConverter}
-                            }"/>
-                        
-                        
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ContextFlyout>
                 <MenuFlyout>
                     <MenuFlyoutItem Text="Open" Background="#FF636363" Click="cntxt_files_open_click"/>
-                    <MenuFlyoutItem Text="Add to PseudoFolder" Background="#FF212721" Tapped="cntxt_files_addToPSFo_Tapped"/>
+                    <MenuFlyoutSubItem x:Name="cntxt_files_psFolders" Text="Add to PseudoFolder" Background="#FF212721">
+                    </MenuFlyoutSubItem>
                 </MenuFlyout>
             </ListView.ContextFlyout>
         </ListView>

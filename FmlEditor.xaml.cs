@@ -11,6 +11,8 @@ using System.IO;
 using System.Diagnostics;
 using Windows.System;
 using Windows.Storage.Pickers;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 
 namespace FileManager
 {
@@ -19,6 +21,7 @@ namespace FileManager
         public static FmlEditor Inst;
         public PseudoFolder selPSFolder => lst_pseudoFolders.SelectedItem as PseudoFolder;
         public PseudoFile selPSFile => lst_pseudoFolderFiles.SelectedItem as PseudoFile;
+        public List<PseudoFile> selPSFiles => lst_pseudoFolderFiles.SelectedItems as List<PseudoFile>;
         public string selPSFolderTag => lst_pseudoFolderTags.SelectedItem as string;
         public string selPSFileTag => lst_pseudoFileTags.SelectedItem as string;
         public FmlEditor()
@@ -33,6 +36,12 @@ namespace FileManager
             Inst = this;
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            RefreshLists();
+        }
         private async void btn_addPseudoFile_Click(object sender, RoutedEventArgs e)
         {
             if (selPSFolder == null) return;
@@ -41,7 +50,6 @@ namespace FileManager
                 SuggestedStartLocation = PickerLocationId.Desktop
             };
             filePicker.FileTypeFilter.Add("*");
-
             var stoFiles = await filePicker.PickMultipleFilesAsync();
             string s = "";
             if (stoFiles != null)
@@ -51,9 +59,9 @@ namespace FileManager
                     selPSFolder.psFiles.Add(new PseudoFile(sf.Name, sf.Path));
                     s += $" {sf.Name}";
                 }
+                RefreshPseudoFileList();
+                MainPage.WriteToConsole("Added Pseudofile(s) to", selPSFolder.name, s);
             }
-            RefreshPseudoFileList();
-            MainPage.WriteToConsole("Added Pseudofile(s) to", selPSFolder.name, s);
         }
 
         private void btn_addPseudoFolder_Click(object sender, RoutedEventArgs e)
@@ -74,18 +82,7 @@ namespace FileManager
 
         private void btn_removePseudoFile_Click(object sender, RoutedEventArgs e)
         {
-            var files = lst_pseudoFolderFiles.SelectedItems.AsEnumerable();
-            if (files != null)
-            {
-                string s = "";
-                foreach (PseudoFile ps in files)
-                {
-                    selPSFolder.psFiles.Remove(ps);
-                    s += $" {ps.name}";
-                }
-                RefreshPseudoFileList();
-                MainPage.WriteToConsole("Removed Pseudofile(s) from", selPSFolder.name, s);
-            }
+            RemoveSelectedPseudoFiles();
         }
 
 
@@ -94,15 +91,14 @@ namespace FileManager
         {
             if (selPSFolder == null) return;
             FML.curr.psFolders.Remove(selPSFolder);
-            RefreshPseudoFolderList();
             MainPage.WriteToConsole("Removed PseudoFolder", selPSFolder.name, DateTime.Now.ToString());
+            RefreshPseudoFolderList();
         }
 
 
         private void btn_openPseudoFile_Click(object sender, RoutedEventArgs e)
         {
-            if (selPSFile == null) return;
-            Func.LaunchFileFromPath(selPSFile.path, selPSFile.name);
+            if (selPSFile != null) Func.LaunchFile(selPSFile);
         }
 
         private void btn_addFolderTag_Click(object sender, RoutedEventArgs e)
@@ -195,5 +191,35 @@ namespace FileManager
             RefreshPseudoFileTagList();
         }
 
+        private void cntxt_files_open_click(object sender, RoutedEventArgs e)
+        {
+            Func.LaunchFileFromPath(selPSFile.path, selPSFile.name);
+        }
+
+        private void lst_pseudoFolderFiles_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            //var frmElmt = e.OriginalSource as FrameworkElement;
+            //this.lst_pseudoFolderFiles.SelectedItem = frmElmt.DataContext;
+        }
+
+        private void cntxt_files_remove_click(object sender, RoutedEventArgs e)
+        {
+            RemoveSelectedPseudoFiles();
+        }
+        private void RemoveSelectedPseudoFiles()
+        {
+            var files = lst_pseudoFolderFiles.SelectedItems.AsEnumerable();
+            if (files != null)
+            {
+                string s = "";
+                foreach (PseudoFile ps in files)
+                {
+                    selPSFolder.psFiles.Remove(ps);
+                    s += $" {ps.name}";
+                }
+                RefreshPseudoFileList();
+                MainPage.WriteToConsole("Removed Pseudofile(s) from", selPSFolder.name, s);
+            }
+        }
     }
 }

@@ -10,6 +10,7 @@
     <Page.Resources>
         <local:StringFormatConverter x:Key="StringFormatConverter"/>
         <local:StorageObjInfoConverter x:Key="StorageObjInfoConverter"/>
+        <local:FML x:Key="FML"/>
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -28,14 +29,14 @@
                                                                                                                                                >
             <ListView.ItemTemplate>
                 <DataTemplate x:Name="sf"                                   >
-                    <StackPanel x:ConnectionId='17' x:Name="stkpnl_folder" Orientation="Horizontal"                                        >
-                        <TextBlock x:ConnectionId='18'                      />
+                    <StackPanel x:ConnectionId='16' x:Name="stkpnl_folder" Orientation="Horizontal"                                        >
+                        <TextBlock x:ConnectionId='17'                      />
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ContextFlyout>
                 <MenuFlyout>
-                    <MenuFlyoutItem x:ConnectionId='19' Text="Open" Background="#FF636363"                                 />
+                    <MenuFlyoutItem x:ConnectionId='18' Text="Open" Background="#FF636363"                                 />
                 </MenuFlyout>
             </ListView.ContextFlyout>
         </ListView>
@@ -46,25 +47,21 @@
                 <DataTemplate                                 >
                     <StackPanel x:ConnectionId='9' Orientation="Horizontal">
                         <StackPanel Orientation="Vertical">
-                            <TextBlock x:ConnectionId='12'                      FontWeight="Bold"/>
-                            <TextBlock x:ConnectionId='13'                             />
+                            <TextBlock x:ConnectionId='11'                      FontWeight="Bold"/>
+                            <TextBlock x:ConnectionId='12'                             />
                         </StackPanel>
                         <TextBlock x:ConnectionId='10'                            
                                                                               
                                                                      
                               />
-                        <TextBlock x:ConnectionId='11'                           
-                                                                              
-                              />
-                        
-                        
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ContextFlyout>
                 <MenuFlyout>
-                    <MenuFlyoutItem x:ConnectionId='14' Text="Open" Background="#FF636363"                               />
-                    <MenuFlyoutItem x:ConnectionId='15' Text="Add to PseudoFolder" Background="#FF212721"                                      />
+                    <MenuFlyoutItem x:ConnectionId='13' Text="Open" Background="#FF636363"                               />
+                    <MenuFlyoutSubItem x:ConnectionId='14' x:Name="cntxt_files_psFolders" Text="Add to PseudoFolder" Background="#FF212721">
+                    </MenuFlyoutSubItem>
                 </MenuFlyout>
             </ListView.ContextFlyout>
         </ListView>

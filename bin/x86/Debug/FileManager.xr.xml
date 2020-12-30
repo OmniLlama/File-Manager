@@ -13,6 +13,7 @@
     <RootType FullName="Microsoft.Xaml.DirectUI.ProxyTypes.ThemeResourceExtension" />
     <RootType FullName="FileManager.StringFormatConverter" />
     <RootType FullName="FileManager.StorageObjInfoConverter" />
+    <RootType FullName="FileManager.FML" />
     <RootType FullName="Windows.UI.Xaml.Controls.Grid">
       <RootProperty Name="ColumnDefinitions" />
       <RootProperty Name="RowDefinitions" />
@@ -47,6 +48,7 @@
       <RootProperty Name="Height" />
       <RootProperty Name="FontWeight" />
       <RootProperty Name="Foreground" />
+      <RootProperty Name="TextTrimming" />
       <RootProperty Name="HorizontalAlignment" />
       <RootProperty Name="Width" />
     </RootType>
@@ -85,7 +87,10 @@
       <RootProperty Name="Text" />
       <RootProperty Name="Background" />
       <RootEvent Name="Click" />
-      <RootEvent Name="Tapped" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.MenuFlyoutSubItem">
+      <RootProperty Name="Text" />
+      <RootProperty Name="Background" />
     </RootType>
     <RootType FullName="FileManager.FileExplorer" />
     <RootType FullName="Windows.UI.Xaml.Controls.Frame">

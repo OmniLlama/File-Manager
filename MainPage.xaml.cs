@@ -32,6 +32,8 @@ namespace FileManager
 
         public NavigationViewItem navItem;
 
+        public bool fmlChanged = false;
+        public DateTime lastSaved;
         public MainPage()
         {
             InitializeComponent();
@@ -47,7 +49,9 @@ namespace FileManager
             {
                 sfFML = await localFolder.GetFileAsync("base.fml");
                 FML.curr = Xml.ReadFromXmlFile<FML>(sfFML.Path);
+                FML.last = FML.curr;
                 WriteToConsole("FML Loaded!", sfFML.Path);
+                lastSaved = DateTime.Now;
             }
             catch
             {
@@ -73,13 +77,21 @@ namespace FileManager
         private void btn_saveFML_Click(object sender, RoutedEventArgs e)
         {
             FML.curr.WriteToFile(false);
-            WriteToConsole("Saved FML", FML.curr.path, DateTime.Now.ToString());
+            fmlChanged = false;
+            lastSaved = DateTime.Now;
+            WriteToConsole("Saved FML", FML.curr.path, lastSaved.ToString());
         }
         public static void WriteToConsole(string s1 = null, string s2 = null, string s3 = null)
         {
             Inst.txt_actionConsole1.Text = s1 != null ? s1 : "";
             Inst.txt_actionConsole2.Text = s2 != null ? s2 : "";
             Inst.txt_actionConsole3.Text = s3 != null ? s3 : "";
+        }
+
+        private void btn_revertFML_Click(object sender, RoutedEventArgs e)
+        {
+            FML.RevertChanges();
+            WriteToConsole("Reverted to last saved FML", FML.curr.path, (DateTime.Now.Subtract(lastSaved).Duration()).ToString() );
         }
     }
 

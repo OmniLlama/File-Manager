@@ -54,6 +54,7 @@ namespace FileManager
     public class FML
     {
         public static FML curr;
+        public static FML last;
         public string path;
         public List<PseudoFolder> psFolders;
         SortedDictionary<string, List<PseudoObject>> tagDict;
@@ -66,6 +67,11 @@ namespace FileManager
         public void WriteToFile(bool append)
         {
             Xml.WriteToXmlFile(this.path, this, append);
+            last = curr;
+        }
+        public static void RevertChanges()
+        {
+            curr = last;
         }
     }
     static public class Xml

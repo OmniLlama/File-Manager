@@ -25,12 +25,12 @@
             <ListView x:ConnectionId='6' x:Name="lst_pseudoFolders" Margin="10,56,10,13" BorderBrush="#FFFF8282" Background="#FF322727"                                                       CanDragItems="True" CanReorderItems="True">
                 <ListView.ItemTemplate>
                     <DataTemplate                                >
-                        <StackPanel x:ConnectionId='24' Orientation="Vertical" >
-                            <TextBlock x:ConnectionId='25'                      />
+                        <StackPanel x:ConnectionId='27' Orientation="Vertical" >
+                            <TextBlock x:ConnectionId='28'                      />
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock x:ConnectionId='26'                           Foreground="#FFA6A6A6" />
+                                <TextBlock x:ConnectionId='29'                           Foreground="#FFA6A6A6" />
                                 <TextBlock Text=" Files | " />
-                                <TextBlock x:ConnectionId='27'                          Foreground="#FFA6A6A6"/>
+                                <TextBlock x:ConnectionId='30'                          Foreground="#FFA6A6A6"/>
                                 <TextBlock Text=" Tags" />
                             </StackPanel>
                         </StackPanel>
@@ -41,19 +41,29 @@
             <Button x:ConnectionId='7' x:Name="btn_addPseudoFile" Content="+" Margin="10,5,0,0" VerticalAlignment="Top"                                 Height="35" Width="37" Grid.Column="1"/>
             <Button x:ConnectionId='8' x:Name="btn_removePseudoFile" Content="-" Margin="52,5,0,0" VerticalAlignment="Top"                                    Height="35" Width="32" Grid.Column="1"/>
             <Button x:ConnectionId='9' x:Name="btn_openPseudoFile" Content="Open File" Margin="0,5,10,0" VerticalAlignment="Top"                                  Height="35" HorizontalAlignment="Right" Width="98" Grid.Column="1"/>
-            <ListView x:ConnectionId='10' x:Name="lst_pseudoFolderFiles" Margin="10,56,1,13" Background="#FF212721" Grid.Column="1"
+            <ListView x:ConnectionId='10' x:Name="lst_pseudoFolderFiles" Margin="10,56,1,13" Background="#FF212721" Grid.Column="1"                                                
                                                                                 SelectionMode="Multiple" >
                 <ListView.ItemTemplate>
                     <DataTemplate                              >
                         <StackPanel x:ConnectionId='20' Orientation="Vertical" >
-                            <TextBlock x:ConnectionId='21'                      />
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock x:ConnectionId='22'                            Foreground="#FFA6A6A6"/>
+                                <TextBlock x:ConnectionId='22'                      />
+                                <TextBlock Text=" | " />
+                                <TextBlock x:ConnectionId='23'                      Foreground="#FFA6A6A6" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:ConnectionId='21'                            Foreground="#FFA6A6A6"/>
                                 <TextBlock Text=" Tags" />
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                <ListView.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem x:ConnectionId='24' Text="Open" Background="#FF636363"                               />
+                        <MenuFlyoutItem x:ConnectionId='25' Text="Remove File(s)" Background="#FF914E4E"                                 />
+                    </MenuFlyout>
+                </ListView.ContextFlyout>
             </ListView>
 
             <TextBox x:ConnectionId='11' x:Name="txtbox_folderTag" HorizontalAlignment="Left" Margin="10,10,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="209" PlaceholderText="Folder Tags" Height="35" Grid.Row="1"/>
