@@ -24,8 +24,8 @@
         <Button x:Name="btn_refresh" Content="Refresh" Margin="43,4,0,0" VerticalAlignment="Top" Click="btn_refresh_click" Height="32" Width="66"/>
         <Button x:Name="btn_browse" Content="Browse" Margin="114,4,0,0" VerticalAlignment="Top" Click="btn_browse_click" Width="64" Height="32"/>
         <Button x:Name="btn_dirUp" Content="↑" Margin="10,4,0,0" VerticalAlignment="Top" Click="btn_dirUp_Click" Width="28" Height="32" Background="#66FFFFFF"/>
-        <TextBlock x:Name="txt_currDir" Text="{x:Bind CurrPath, Mode=OneWay}" Margin="183,10,28,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="32"/>
-        <ListView x:Name="lst_folders" Margin="10,41,24,10"  Background="#FF151515" BorderBrush="White"
+        <TextBlock x:Name="txt_currDir" Text="{x:Bind currPath, Mode=OneWay}" Margin="183,10,28,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="32"/>
+        <ListView x:Name="lst_folders" Margin="10,41,10,10"  Background="#FF151515" BorderBrush="White"
                   SelectionChanged="lst_folders_SelectionChanged" RightTapped="lst_folders_RightTapped" DoubleTapped="lst_folders_DoubleTapped">
             <ListView.ItemTemplate>
                 <DataTemplate x:Name="sf" x:DataType="storage:StorageFolder">
@@ -41,19 +41,30 @@
             </ListView.ContextFlyout>
         </ListView>
 
-        <ListView x:Name="lst_files" Margin="10,10,24,0" BorderBrush="#FF999999" Background="#FF1D1D1D" Grid.Row="1" 
-                  SelectionChanged="lst_files_SelectionChanged" RightTapped="lst_files_RightTapped" DoubleTapped="lst_files_DoubleTapped">
+        <ListView x:Name="lst_files" Margin="10,10,10,0" BorderBrush="#FF999999" Background="#FF1D1D1D" Grid.Row="1" Grid.ColumnSpan="2"
+                  SelectionChanged="lst_files_SelectionChanged" RightTapped="lst_files_RightTapped" DoubleTapped="lst_files_DoubleTapped" SelectionMode="Extended">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="VerticalAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="storage:StorageFile">
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="{x:Bind Name}" FontWeight="Bold"/>
-                            <TextBlock Text="{x:Bind DisplayType}" />
-                        </StackPanel>
-                        <TextBlock Text="{x:Bind DateCreated, 
+                            <TextBlock Text="{x:Bind DateCreated, 
                             Converter={StaticResource StringFormatConverter}, 
                             ConverterParameter='{}{0:HH:mm MM.dd.yy}'
                             }"/>
+                        </StackPanel>
+                        <TextBlock Text="|" />
+                        <TextBlock Text="{x:Bind DisplayType}" />
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -65,7 +76,9 @@
                 </MenuFlyout>
             </ListView.ContextFlyout>
         </ListView>
-
+        <Grid x:Name="grd_fileInfo" Grid.Column="1" Background="#6633363C" Margin="0,41,10,10">
+            
+        </Grid>
     </Grid>
 
 </Page>

@@ -16,19 +16,21 @@ namespace FileManager
         {
             StorageFile sf = await StorageFile.GetFileFromPathAsync(path);
             if (await Launcher.LaunchFileAsync(sf))
-                MainPage.WriteToConsole("Launched File", name, DateTime.Now.ToString());
+                MainPage.WriteToConsole("Launched File", ConsoleMessageType.Success, name);
             else
-                MainPage.WriteToConsole("FAILED to launch File", name, DateTime.Now.ToString());
+                MainPage.WriteToConsole("FAILED to launch File", ConsoleMessageType.Error, name);
         }
         public static async void LaunchFile(PseudoFile ps)
         {
             StorageFile sf = await StorageFile.GetFileFromPathAsync(ps.path);
             if (await Launcher.LaunchFileAsync(sf))
-                MainPage.WriteToConsole("Launched File", ps.name, DateTime.Now.ToString());
+                MainPage.WriteToConsole("Launched File", ConsoleMessageType.Success,ps.Name);
             else
-                MainPage.WriteToConsole("FAILED to launch File", ps.name, DateTime.Now.ToString());
+                MainPage.WriteToConsole("FAILED to launch File", ConsoleMessageType.Error, ps.Name);
         }
+        
     }
+
     public sealed class StorageObjInfoConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)

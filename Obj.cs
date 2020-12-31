@@ -12,13 +12,16 @@ namespace FileManager
 {
     public class PseudoObject
     {
-        public string name;
+        //public string Name;
         public PseudoObject() { }
-        public string Name { get => name; set { name = value; } }
+        [XmlAttribute]
+        public string Name { get; set ; }
     }
     public class PseudoFile : PseudoObject
     {
+
         public string path;
+
         public List<string> tags;
         public PseudoFile() : base()
         {
@@ -26,12 +29,12 @@ namespace FileManager
         }
         public PseudoFile(string n, string p) : this()
         {
-            name = n;
-            path = p;
+            Name = n;
+            path = Path.GetDirectoryName(p);
         }
         public override string ToString()
         {
-            return $"{name} | {tags.Count} tags";
+            return $"{Name} | {tags.Count} tags";
         }
     }
     public class PseudoFolder : PseudoObject
@@ -40,7 +43,7 @@ namespace FileManager
         public List<PseudoFile> psFiles;
         public PseudoFolder() : base()
         {
-            name = "new psFolder";
+            Name = "new psFolder";
             psFiles = new List<PseudoFile>();
             tags = new List<string>();
         }
@@ -48,7 +51,7 @@ namespace FileManager
         public int FileCount { get => psFiles.Count; }
         public override string ToString()
         {
-            return $"{name} | {psFiles.Count} files | {tags.Count} tags";
+            return $"{Name} | {psFiles.Count} files | {tags.Count} tags";
         }
     }
     public class FML

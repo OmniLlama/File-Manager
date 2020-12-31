@@ -21,7 +21,7 @@ namespace FileManager
         public static FmlEditor Inst;
         public PseudoFolder selPSFolder => lst_pseudoFolders.SelectedItem as PseudoFolder;
         public PseudoFile selPSFile => lst_pseudoFolderFiles.SelectedItem as PseudoFile;
-        public List<PseudoFile> selPSFiles => lst_pseudoFolderFiles.SelectedItems as List<PseudoFile>;
+        public List<PseudoFile> selPSFiles => lst_pseudoFolderFiles.SelectedItems.Cast<PseudoFile>().ToList();
         public string selPSFolderTag => lst_pseudoFolderTags.SelectedItem as string;
         public string selPSFileTag => lst_pseudoFileTags.SelectedItem as string;
         public FmlEditor()
@@ -34,7 +34,7 @@ namespace FileManager
         private void StartFmlEditor()
         {
             Inst = this;
-            NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
+            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -60,7 +60,7 @@ namespace FileManager
                     s += $" {sf.Name}";
                 }
                 RefreshPseudoFileList();
-                MainPage.WriteToConsole("Added Pseudofile(s) to", selPSFolder.name, s);
+                MainPage.WriteToConsole("Added Pseudofile(s) to", selPSFolder.Name, s);
             }
         }
 
@@ -68,13 +68,13 @@ namespace FileManager
         {
             FML.curr.psFolders.Add(new PseudoFolder());
             RefreshLists();
-            MainPage.WriteToConsole("Added PseudoFolder");
+            MainPage.WriteToConsole("Added PseudoFolder", ConsoleMessageType.Success);
         }
 
 
         private void btn_updatePseudoFolderName_Click(object sender, RoutedEventArgs e)
         {
-            selPSFolder.name = txtbox_pseudoFolderName.Text;
+            selPSFolder.Name = txtbox_pseudoFolderName.Text;
             RefreshLists();
         }
 
@@ -91,7 +91,7 @@ namespace FileManager
         {
             if (selPSFolder == null) return;
             FML.curr.psFolders.Remove(selPSFolder);
-            MainPage.WriteToConsole("Removed PseudoFolder", selPSFolder.name, DateTime.Now.ToString());
+            MainPage.WriteToConsole("Removed PseudoFolder", ConsoleMessageType.Success, selPSFolder.Name);
             RefreshPseudoFolderList();
         }
 
@@ -108,8 +108,8 @@ namespace FileManager
             {
                 selPSFolder.tags.Add(txtbox_folderTag.Text);
             }
+            MainPage.WriteToConsole("Added tag to", selPSFolder.Name, txtbox_folderTag.Text);
             RefreshPseudoFolderList();
-            MainPage.WriteToConsole("Added tag to", selPSFolder.name, txtbox_folderTag.Text);
             RefreshPseudoFolderTagList();
             txtbox_folderTag.Text = "";
         }
@@ -118,7 +118,7 @@ namespace FileManager
         {
             if (selPSFolderTag == null || selPSFolder == null) return;
             selPSFolder.tags.Remove(selPSFolderTag);
-            MainPage.WriteToConsole("Removed tag from", selPSFolder.name, selPSFolderTag);
+            MainPage.WriteToConsole("Removed tag from", selPSFolder.Name, selPSFolderTag);
         }
         private void btn_addFileTag_Click(object sender, RoutedEventArgs e)
         {
@@ -129,7 +129,7 @@ namespace FileManager
             }
             RefreshPseudoFileList();
             RefreshPseudoFileTagList();
-            MainPage.WriteToConsole("Added tag to", selPSFile.name, txtbox_fileTag.Text);
+            MainPage.WriteToConsole("Added tag to", selPSFile.Name, txtbox_fileTag.Text);
             txtbox_fileTag.Text = "";
         }
 
@@ -137,14 +137,14 @@ namespace FileManager
         {
             if (selPSFileTag == null || selPSFile == null) return;
             selPSFile.tags.Remove(selPSFileTag);
-            MainPage.WriteToConsole("Removed tag from", selPSFile.name, selPSFileTag);
+            MainPage.WriteToConsole("Removed tag from", selPSFile.Name, selPSFileTag);
         }
         private void lst_pseudoFolders_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (selPSFolder == null) return;
             lst_pseudoFolderFiles.ItemsSource = selPSFolder.psFiles;
             lst_pseudoFolderTags.ItemsSource = selPSFolder.tags;
-            txtbox_pseudoFolderName.Text = selPSFolder.name;
+            txtbox_pseudoFolderName.Text = selPSFolder.Name;
         }
         private void lst_pseudoFolderFiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -193,7 +193,7 @@ namespace FileManager
 
         private void cntxt_files_open_click(object sender, RoutedEventArgs e)
         {
-            Func.LaunchFileFromPath(selPSFile.path, selPSFile.name);
+            Func.LaunchFileFromPath(selPSFile.path, selPSFile.Name);
         }
 
         private void lst_pseudoFolderFiles_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -206,19 +206,20 @@ namespace FileManager
         {
             RemoveSelectedPseudoFiles();
         }
+
         private void RemoveSelectedPseudoFiles()
         {
-            var files = lst_pseudoFolderFiles.SelectedItems.AsEnumerable();
+            var files = selPSFiles;
             if (files != null)
             {
                 string s = "";
                 foreach (PseudoFile ps in files)
                 {
                     selPSFolder.psFiles.Remove(ps);
-                    s += $" {ps.name}";
+                    s += $" {ps.Name}";
                 }
                 RefreshPseudoFileList();
-                MainPage.WriteToConsole("Removed Pseudofile(s) from", selPSFolder.name, s);
+                MainPage.WriteToConsole("Removed Pseudofile(s) from", selPSFolder.Name, s);
             }
         }
     }

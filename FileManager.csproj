@@ -10,6 +10,7 @@
     <RootNamespace>FileManager</RootNamespace>
     <AssemblyName>FileManager</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
+	<LangVer>8.0</LangVer>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
@@ -120,6 +121,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Disp.cs" />
+    <Compile Include="Ext.cs" />
     <Compile Include="FileExplorer.xaml.cs">
       <DependentUpon>FileExplorer.xaml</DependentUpon>
     </Compile>
